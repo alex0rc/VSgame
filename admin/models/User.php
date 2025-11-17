@@ -6,7 +6,7 @@ use admin\models\Database;
 use admin\models\User;
 use PDO;
 
-class Users{
+class User{
     private $db;
     private $con;
 
