@@ -1,0 +1,276 @@
+@charset "UTF-8";
+@property --rotate {
+  syntax: "<angle>";
+  initial-value: 132deg;
+  inherits: false;
+}
+html {
+  min-height: 100%;
+}
+
+body {
+  background: url("../img/fondo.jpg");
+  background-size: cover !important;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.card {
+  width: 260px; /* Ancho de las cartas */
+  margin: 10px;
+}
+
+img {
+  max-width: 100%;
+  width: 100%;
+}
+
+.vs {
+  margin: 20px;
+  width: 100px; /* Ancho de la imagen VS */
+}
+
+.btn {
+  width: 100px; /* Ancho de las cartas */
+  margin: 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+  zoom: 1.05;
+  transition: all 0.2s ease-in-out;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.card {
+  background: #191c29;
+  position: relative;
+  padding: 3px;
+  border-radius: 6px;
+}
+
+.card:hover {
+  color: rgb(88, 199, 250);
+  transition: color 1s;
+}
+
+.card:hover:before,
+.card:hover:after {
+  animation: none;
+  opacity: 0;
+}
+
+.card::before {
+  content: "";
+  width: 104%;
+  height: 102%;
+  border-radius: 8px;
+  background-image: linear-gradient(var(--rotate), #5ddcff, #3c67e3 43%, #4e00c2);
+  position: absolute;
+  z-index: -1;
+  top: -1%;
+  left: -2%;
+  animation: spin 2.5s linear infinite;
+}
+
+.card::after {
+  position: absolute;
+  content: "";
+  top: calc(var(--card-height) / 6);
+  left: 0;
+  right: 0;
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  transform: scale(0.8);
+  filter: blur(calc(var(--card-height) / 6));
+  background-image: linear-gradient(var(--rotate), #5ddcff, #3c67e3 43%, #4e00c2);
+  opacity: 1;
+  transition: opacity 0.5s;
+  animation: spin 2.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    --rotate: 0deg;
+  }
+  100% {
+    --rotate: 360deg;
+  }
+}
+/* El contenedor del popup (por defecto oculto) */
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
+  justify-content: center;
+  align-items: center;
+}
+
+/* El contenido del popup */
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px;
+  text-align: center;
+  position: relative;
+}
+
+/* El botón para cerrar el popup */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+/* Mostrar el popup cuando se active */
+.popup.active {
+  display: flex;
+}
+
+/* boton restart */
+#restartGame {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 100px;
+  transition: all 1s ease-in-out;
+}
+
+#restartGame:hover {
+  top: 15px;
+  transition: all 1s ease-in-out;
+}
+
+/* score */
+.score {
+  width: 260px;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.contentScore {
+  position: relative;
+  z-index: 3;
+}
+
+.ronda {
+  width: -moz-fit-content;
+  width: fit-content;
+  font-size: 2em;
+  color: white;
+  position: absolute;
+  top: 77px;
+  left: 46%;
+}
+
+.puntuacionJ1 {
+  width: -moz-fit-content;
+  width: fit-content;
+  font-size: 1.6em;
+  color: white;
+  position: absolute;
+  top: 73%;
+  left: 32%;
+  font-weight: 700;
+}
+
+.puntuacionJ2 {
+  width: -moz-fit-content;
+  width: fit-content;
+  font-size: 1.6em;
+  color: white;
+  position: absolute;
+  top: 73%;
+  left: 59%;
+  font-weight: 700;
+}
+
+/* banderola */
+#bandera {
+  opacity: 1; /* Opacidad inicial */
+  color: black; /* Color del texto */
+  padding: 20px;
+  border-radius: 5px;
+  position: absolute;
+  top: -20px;
+  width: 80px;
+  z-index: -1; /* Asegúrate de que esté por encima de otros elementos */
+  transition: visibility 0s 1s, opacity 1s linear; /* Cambia la visibilidad y opacidad */
+  margin-left: 28%;
+}
+
+/* Clase para mostrar el banner */
+.show {
+  visibility: visible; /* Hacer visible */
+  opacity: 1; /* Opacidad completa */
+  transition: opacity 1s linear; /* Solo cambiar opacidad */
+}
+
+#bandera.show {
+  visibility: visible; /* Hacer visible */
+  opacity: 1; /* Opacidad completa */
+}
+
+/* Banderola después de 1 segundo se oculta */
+#bandera.show {
+  animation: fadeOut 4s forwards; /* Llama a la animación */
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  10% {
+    z-index: 1;
+    top: -110px;
+  }
+  50% {
+    top: -5px;
+    z-index: 1;
+  }
+  75% {
+    opacity: 1;
+    top: -110px;
+    z-index: 1;
+  }
+  80% {
+    opacity: 1;
+    top: -20px;
+    z-index: -1;
+  }
+  100% {
+    top: 20px;
+    z-index: -1;
+  }
+}/*# sourceMappingURL=style.css.map */
