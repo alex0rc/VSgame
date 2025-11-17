@@ -8,25 +8,28 @@
 </head>
 
 <body>
-    <h1>VSGAME</h1>
-    <h2>Registro</h2>
+    <div class="form-container">
 
-    <form id="loginForm">
-        <label>Username</label>
-        <input type="text" id="username" required>
+        <h1>VSGAME</h1>
+        <h2>Registro</h2>
 
-        <label>Email:</label>
-        <input type="email" id="email" required>
+        <form id="loginForm">
+            <label>Username</label>
+            <input type="text" id="username" required>
 
-        <label>Contraseña:</label>
-        <input type="password" id="password" required>
+            <label>Email:</label>
+            <input type="email" id="email" required>
 
-        <button type="submit">Entrar</button>
-    </form>
+            <label>Contraseña:</label>
+            <input type="password" id="password" required>
 
-    <p>¿Ya tienes cuenta?
-        <a href="./login.php">Iniciar Sesión</a>
-    </p>
+            <button type="submit">Entrar</button>
+        </form>
+
+        <p>¿Ya tienes cuenta?
+            <a href="./login.php">Iniciar Sesión</a>
+        </p>
+    </div>
 </body>
 
 </html>
