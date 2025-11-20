@@ -3,7 +3,6 @@
 namespace admin\models;
 
 use admin\models\Database;
-use admin\models\User;
 use PDO;
 
 class User{
@@ -17,12 +16,14 @@ class User{
     private int $wins;
     private int $losses;
 
+    private bool $isHashed = false;
+
 
     public function __construct(?int $id = null, ?string $username = null, ?string $email = null, ?string $password = null) {
     $this->id = $id;
     $this->username = $username;
     $this->email = $email;
-    $this->password = $isHashed ? $password : password_hash($password, PASSWORD_DEFAULT);
+    $this->password = $this->isHashed ? $password : password_hash($password, PASSWORD_DEFAULT);
 
     $this->db = Database::getInstance();
     $this->con = $this->db->connect();
@@ -101,14 +102,14 @@ class User{
         return $this->mapSingle($stmt->fetch(PDO::FETCH_ASSOC));
     }
 
-    public function getAllUsers() : array {}
+    //public function getAllUsers() : array {}
 
-    public function getByEmail(String $email) : ?User {}
+    //public function getByEmail(String $email) : ?User {}
 
-    public function getRanking() : array {}
+    //public function getRanking() : array {}
 
     //Update
-    public function updateScore(User $user) : bool {}
+    //public function updateScore(User $user) : bool {}
 
     //Delete
     public function delete(User $user) : bool {
