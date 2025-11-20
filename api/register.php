@@ -9,10 +9,10 @@ require_once '../../Intermodular/VSgame/admin/config/database.php';
 $db = Database::getInstance();
 $con = $db->connect();
 
-int $id = $_SERVER['REQUEST_METHOD'] == 'POST' ? $_POST['id'];
-string $username = $_SERVER['REQUEST_METHOD'] == 'POST' ? $_POST['username'];
-string $email = $_SERVER['REQUEST_METHOD'] == 'POST' ? $_POST['email'];
-string $password = $_SERVER['REQUEST_METHOD'] == 'POST' ? $_POST['password'];
+$id = $_POST['id'] ?? null;
+$username = $_POST['username'] ?? null;
+$email = $_POST['email'] ?? null;
+$password = $_POST['password'] ?? null;
 
 $user = new User($id, $username, $email, $password);
 
