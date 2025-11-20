@@ -1,6 +1,6 @@
 <?php
 
-usernamespace admin\models;
+namespace admin\models;
 
 use admin\models\Database;
 use admin\models\User;
