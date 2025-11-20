@@ -1,3 +1,8 @@
+<?php
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -9,16 +14,17 @@
 
 <body>
     <div class="form-container">
-
         <h1>VSGAME</h1>
         <h2>Iniciar Sesión</h2>
 
-        <form id="loginForm">
+        <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
+
+        <form method="POST" id="loginForm">
             <label>Username</label>
-            <input type="text" id="username" required>
+            <input type="text" name="username" required>
 
             <label>Contraseña:</label>
-            <input type="password" id="password" required>
+            <input type="password" name="password" required>
 
             <button type="submit">Entrar</button>
         </form>

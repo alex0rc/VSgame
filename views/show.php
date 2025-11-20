@@ -1,17 +1,36 @@
+<?php
+session_start();
+
+// Bloquear acceso si no hay sesión
+if (!isset($_SESSION['username'])) {
+    header('Location: login.php');
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/scss/style.css">
     <title>VSGame</title>
+    <link rel="stylesheet" href="../assets/scss/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-    <!-- Formulario para elegir ataque o defensa -->
-    <form action="" method="GET" id="formEnvio" style="display: none" ;>
+    <!-- Cabecera con nombre de usuario y logout -->
+    <header class="header">
+        <div>Bienvenido, <?php echo htmlspecialchars($_SESSION['username']); ?></div>
+        <a href="logout.php" class="logout-btn">Cerrar sesión</a>
+    </header>
+
+    <!-- Formulario oculto para elegir ataque o defensa -->
+    <form action="" method="GET" id="formEnvio" style="display: none;">
         <select name="opcionJugada" id="opcionJugada">
             <option value="ataque">Ataque</option>
             <option value="defensa">Defensa</option>
@@ -20,86 +39,57 @@
     </form>
 
     <div class="container">
-        <div class="card">
-            <img src="../assets/img/cards/1_card.jpg" alt="Carta del Jugador">
+        <!-- CARTA JUGADOR -->
+        <div class="card" data-id-carta="1" id="cartaJugador">
+            <img id="imgJugador" src="../assets/img/cards/1_card.jpg" alt="Carta del Jugador">
+            <span class="atk" id="atkJugador">--</span>
+            <span class="def" id="defJugador">--</span>
         </div>
+
         <img src="../assets/img/vs.png" alt="VS" class="vs">
-        <div class="card">
-            <img src="../assets/img/cards/2_card.jpg" alt="Carta de la Máquina">
+
+        <!-- CARTA MÁQUINA -->
+        <div class="card" data-id-carta="2" id="cartaMaquina">
+            <img id="imgMaquina" src="../assets/img/cards/2_card.jpg" alt="Carta de la Máquina">
+            <span class="atk" id="atkMaquina">--</span>
+            <span class="def" id="defMaquina">--</span>
         </div>
     </div>
+
+    <!-- Botones Ataque / Defensa -->
     <div class="container">
         <div class="buttons">
             <a href="#" id="atacar" onclick="atacar(); return false">
-                <img src="../assets/img/atacar.png" alt="Carta del Jugador" class="btn">
+                <img src="../assets/img/atacar.png" alt="atacar" class="btn">
             </a>
             <a href="#" id="defensa" onclick="defender(); return false">
-                <img src="../assets/img/defender.png" alt="Carta del Jugador" class="btn">
+                <img src="../assets/img/defender.png" alt="defender" class="btn">
             </a>
         </div>
-
-
     </div>
-    <a href="/daw/poo/videogame.php">
-        <img src="../assets/img/restartgame.png" alt="reiniciar" id="restartGame">
+
+    <!-- Reiniciar juego -->
+    <a href="#" id="restartGame">
+        <img src="../assets/img/restartgame.png" alt="reiniciar">
     </a>
+
+    <!-- SCOREBOARD -->
     <div class="score">
         <div class="contentScore">
             <div id="bandera" class="show">
                 <img src="../assets/img/win2.png" alt="win2" class="win2">
             </div>
-            <img src="../assets/img/score.png" alt="reiniciar" id="scoreGame">
-            <div class="ronda">
-                1
-            </div>
-            <div class="puntuacionJ1">
-                2
-            </div>
-            <div class="puntuacionJ2">
-                3
-            </div>
+
+            <img src="../assets/img/score.png" alt="score" id="scoreGame">
+
+            <div class="ronda" id="rondaActual">1</div>
+            <div class="puntuacionJ1" id="scoreJ1">0</div>
+            <div class="puntuacionJ2" id="scoreJ2">0</div>
         </div>
     </div>
 
-
-
-    <!-- <div class="popup active" id="popup">
-        <div class="popup-content">
-            <button class="close-btn" id="closePopupBtn">&times;</button>
-            <h2>Jugada</h2>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, provident.
-        </div>
-    </div> -->
-
-    <script>
-        const selectOculto = document.getElementById('opcionJugada');
-        const formulario = document.getElementById('formEnvio');
-
-        function atacar() {
-            selectOculto.value = 'ataque'; // Cambia el valor del select
-            formulario.submit();
-        };
-
-        function defender() {
-            selectOculto.value = 'defensa'; // Cambia el valor del select
-            formulario.submit();
-        };
-
-        // POPUP
-        const closePopupBtn = document.getElementById('closePopupBtn');
-        const popup = document.getElementById('popup');
-
-        closePopupBtn.addEventListener('click', function() {
-            popup.classList.remove('active');
-        });
-
-        window.addEventListener('click', function(e) {
-            if (e.target === popup) {
-                popup.classList.remove('active');
-            }
-        });
-    </script>
-
+    <!-- Scripts -->
+    <script src="../assets/js/app.js"></script>
 </body>
 
 </html>

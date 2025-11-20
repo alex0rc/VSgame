@@ -1,3 +1,8 @@
+<?php
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -9,21 +14,23 @@
 
 <body>
     <div class="form-container">
-
         <h1>VSGAME</h1>
         <h2>Registro</h2>
 
-        <form id="loginForm">
+        <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
+        <?php if (isset($success)) echo "<p style='color:green;'>$success</p>"; ?>
+
+        <form method="POST" id="registerForm">
             <label>Username</label>
-            <input type="text" id="username" required>
+            <input type="text" name="username" required>
 
             <label>Email:</label>
-            <input type="email" id="email" required>
+            <input type="email" name="email" required>
 
             <label>Contraseña:</label>
-            <input type="password" id="password" required>
+            <input type="password" name="password" required>
 
-            <button type="submit">Entrar</button>
+            <button type="submit">Registrarse</button>
         </form>
 
         <p>¿Ya tienes cuenta?
