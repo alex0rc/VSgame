@@ -9,7 +9,14 @@ class Game{
     private $db;
     private $con;
 
-    public function __construct(){
+    private int $id;
+    private int $user_id;
+    private int $difficulty_id;
+    private int $total_rounds = 5;
+    private int $rounds_won;
+    private bool $result;
+
+    public function __construct(int $user_id, int $difficulty_id, bool $result, int $total_rounds = 5, int $rounds_won = 0){
         $this->db = Database::getInstance();
         $this->con = $this->db->connect();
     }

@@ -9,6 +9,14 @@ use PDO;
 class User{
     private $db;
     private $con;
+    
+    private int $id;
+    private string $name;
+    private string $email;
+    private string $password;
+    private int $wins;
+    private int $losses;
+
 
     public function __construct(){
         $this->db = Database::getInstance();
