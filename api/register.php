@@ -3,6 +3,7 @@ namespace api;
 
 use admin\models\User;
 use admin\models\Database;
+use Exception;
 
 require_once '../../Intermodular/VSgame/admin/config/database.php';
 
