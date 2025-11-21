@@ -5,7 +5,7 @@ use admin\models\User;
 use admin\models\Database;
 
 require_once '../../admin/models/User.php';
-require_once '../../Intermodular/VSgame/admin/config/database.php';
+require_once '../../admin/models/Database.php';
 
 $db = Database::getInstance();
 $con = $db->connect();
