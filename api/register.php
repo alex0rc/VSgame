@@ -6,7 +6,7 @@ use admin\models\Database;
 use Exception;
 
 require_once '../../admin/models/User.php';
-require_once '../../Intermodular/VSgame/admin/config/database.php';
+require_once '../../admin/models/Database.php';
 
 $db = Database::getInstance();
 $con = $db->connect();
