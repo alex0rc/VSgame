@@ -1,26 +1,48 @@
 <?php
-namespace api;
+session_start();
+
+require_once __DIR__ . '/../admin/models/User.php';
+require_once __DIR__ . '/../admin/models/Database.php';
 
 use admin\models\User;
-use admin\models\Database;
-use Exception;
 
-require_once __DIR__.'../../admin/models/User.php';
-require_once __DIR__.'../../admin/models/Database.php';
+// Comprobamos que vienen datos por POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    exit("Acceso denegado");
+}
 
-$db = Database::getInstance();
-$con = $db->connect();
+$username = trim($_POST['username'] ?? '');
+$email = trim($_POST['email'] ?? '');
+$password = trim($_POST['password'] ?? '');
 
-$id = $_POST['id'] ?? null;
-$username = $_POST['username'] ?? null;
-$email = $_POST['email'] ?? null;
-$password = $_POST['password'] ?? null;
+// Validación básica
+if (!$username || !$email || !$password) {
+    exit("Faltan datos");
+}
 
-$user = new User($id, $username, $email, $password);
+$userModel = new User();
 
-try{
-    $user->save();
-    echo "Registration successful";
-}catch(Exception $e){
-    echo "Error: ".$e->getMessage();
+// Comprobar si el usuario ya existe
+if ($userModel->getByUsername($username)) {
+    exit("El nombre de usuario ya existe");
+}
+
+if ($userModel->getByEmail($email)) {
+    exit("El email ya está registrado");
+}
+
+// Crear nuevo usuario (la contraseña se hashea automáticamente)
+$newUser = new User(null, $username, $email, $password);
+if ($newUser->save()) {
+    // Guardamos sesión directamente
+    $_SESSION['user'] = [
+        'id' => $newUser->getId(),
+        'username' => $newUser->getUsername(),
+        'email' => $newUser->getEmail()
+    ];
+
+    header('Location: ../views/login.php');
+    exit;
+} else {
+    exit("Error al registrar el usuario");
 }
