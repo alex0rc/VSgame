@@ -2,7 +2,6 @@
 namespace admin\models;
 
 use admin\models\Database;
-use admin\models\Card;
 use PDO;
 
 class Card{
@@ -20,7 +19,7 @@ class Card{
 
     public function get(): array {
         $sql = "SELECT * FROM cards";
-        $stmt $this->con->prepare($sql);
+        $stmt = $this->con->prepare($sql);
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -31,18 +30,18 @@ class Card{
     }
 
     //Create
-    public function save() : bool {}
+    //public function save() : bool {}
 
     //Read
-    public function find(int $id) : ?Card {}
+    //public function find(int $id) : ?Card {}
 
-    public function getAllCards() : array {}
+    //public function getAllCards() : array {}
 
-    public function getCardById(int $id) : ?Card {}
+    //public function getCardById(int $id) : ?Card {}
 
     //Update
-    public function update(Card $card) : bool {}
+    //public function update(Card $card) : bool {}
 
     //Delete
-    public function delete(Card $card) : bool {}
+    //public function delete(Card $card) : bool {}
 }
