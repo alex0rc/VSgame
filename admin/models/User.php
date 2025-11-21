@@ -33,7 +33,12 @@ class User{
 
     
     //Getters
-
+    public function getId() : ?int { return $this->id; }
+    public function getUsername() : ?string { return $this->username; }
+    public function getEmail() : ?string { return $this->email; }
+    public function getPassword() : ?string { return $this->password; }
+    public function getWins() : ?int { return $this->wins; }
+    public function getLosses() : ?int { return $this->losses; }
     //Setters
 
     private function mapSingle(?array $row): ?User {
@@ -49,6 +54,14 @@ class User{
             true
         );
 
+    }
+
+    private function mapAll(?array $rows): ?array {
+        if (!$rows) {
+            return null;
+        }
+
+        return array_map(fn($row) => $this->mapSingle($row), $rows);
     }
 
     public function get(): array {
@@ -104,9 +117,30 @@ class User{
         return $this->mapSingle($stmt->fetch(PDO::FETCH_ASSOC));
     }
 
-    //public function getAllUsers() : array {}
+    public function getAllUsers() : array {
+        $sql = "SELECT * FROM users";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute();
+        return $this->mapAll($stmt->fetchAll(PDO::FETCH_ASSOC));
+    }
 
-    //public function getByEmail(String $email) : ?User {}
+    public function getByEmail(String $email) : ?User {
+        $sql = "SELECT * FROM users WHERE email = :email";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute([
+            ':email' => $email
+        ]);
+        return $this->mapSingle($stmt->fetch(PDO::FETCH_ASSOC));
+    }
+
+    public function getByUsername(String $username) : ?User {
+        $sql = "SELECT * FROM users WHERE username = :username";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute([
+            ':username' => $username
+        ]);
+        return $this->mapSingle($stmt->fetch(PDO::FETCH_ASSOC));
+    }
 
     //public function getRanking() : array {}
 

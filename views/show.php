@@ -2,10 +2,14 @@
 session_start();
 
 // Bloquear acceso si no hay sesión
-if (!isset($_SESSION['username'])) {
-    header('Location: login.php');
+if (!isset($_SESSION['user'])) {
+    header('Location: ../views/login_form.php'); // ruta correcta a tu login
     exit();
 }
+
+$user = $_SESSION['user']; // <-- Array con id, username, email
+$username = $user['username'] ?? ''; // evita warnings
+$email = $user['email'] ?? '';
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +29,7 @@ if (!isset($_SESSION['username'])) {
 
     <!-- Cabecera con nombre de usuario y logout -->
     <header class="header">
-        <div>Bienvenido, <?php echo htmlspecialchars($_SESSION['username']); ?></div>
+        <div>Bienvenido, <?= htmlspecialchars($username) ?>!</div>
         <a href="logout.php" class="logout-btn">Cerrar sesión</a>
     </header>
 

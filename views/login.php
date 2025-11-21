@@ -19,7 +19,7 @@ session_start();
 
         <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
 
-        <form method="POST" id="loginForm">
+        <form method="POST" action="../api/login.php" id="loginForm">
             <label>Username</label>
             <input type="text" name="username" required>
 
