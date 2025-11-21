@@ -1,8 +1,9 @@
 <?php
 namespace admin\models;
 
+require_once __DIR__.'/Database.php';
+
 use admin\models\Database;
-use admin\models\Game;
 use PDO;
 
 class Game{
@@ -27,7 +28,7 @@ class Game{
 
     public function get(): array {
         $sql = "SELECT * FROM games";
-        $stmt $this->con->prepare($sql);
+        $stmt = $this->con->prepare($sql);
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -38,14 +39,14 @@ class Game{
     }
 
     //Create
-    public function save() : bool {}
+    //public function save() : bool {}
 
     //Read
-    public function find(int $id) : ?Game {}
+    //public function find(int $id) : ?Game {}
 
-    public function getAllGames() : array {}
+    //public function getAllGames() : array {}
 
-    public function getUserGames(int $id) : array {}
+    //public function getUserGames(int $id) : array {}
 
-    public function getUserStats(int $id) : array {}
+    //public function getUserStats(int $id) : array {}
 }

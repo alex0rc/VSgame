@@ -5,8 +5,8 @@ use admin\models\User;
 use admin\models\Database;
 use Exception;
 
-require_once '../../admin/models/User.php';
-require_once '../../admin/models/Database.php';
+require_once __DIR__.'../../admin/models/User.php';
+require_once __DIR__.'../../admin/models/Database.php';
 
 $db = Database::getInstance();
 $con = $db->connect();

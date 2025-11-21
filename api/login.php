@@ -4,10 +4,8 @@ namespace api;
 use admin\models\User;
 use admin\models\Database;
 
-require_once '../../admin/models/User.php';
-require_once '../../admin/models/Database.php';
-
-session_start();
+require_once __DIR__.'../../admin/models/User.php';
+require_once __DIR__.'../../admin/models/Database.php';
 
 $db = Database::getInstance();
 $con = $db->connect();
