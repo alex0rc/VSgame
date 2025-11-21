@@ -3,26 +3,29 @@
 namespace admin\models;
 
 use admin\models\Database;
-use admin\models\User;
 use PDO;
 
 class User{
     private $db;
     private $con;
     
-    private int $id;
+    private ?int $id;
     private string $username;
     private string $email;
     private string $password;
     private int $wins;
     private int $losses;
 
+    private bool $isHashed = false;
 
-    public function __construct(?int $id = null, ?string $username = null, ?string $email = null, ?string $password = null) {
+
+    public function __construct(?int $id = null, ?string $username = null, ?string $email = null, ?string $password = null, bool $isHashed = false) {
     $this->id = $id;
     $this->username = $username;
     $this->email = $email;
-    $this->password = $isHashed ? $password : password_hash($password, PASSWORD_DEFAULT);
+    $this->isHashed = $isHashed;
+    
+    $this->password = $this->isHashed ? $password : password_hash($password, PASSWORD_DEFAULT);
 
     $this->db = Database::getInstance();
     $this->con = $this->db->connect();
@@ -30,7 +33,12 @@ class User{
 
     
     //Getters
-
+    public function getId() : ?int { return $this->id; }
+    public function getUsername() : ?string { return $this->username; }
+    public function getEmail() : ?string { return $this->email; }
+    public function getPassword() : ?string { return $this->password; }
+    public function getWins() : ?int { return $this->wins; }
+    public function getLosses() : ?int { return $this->losses; }
     //Setters
 
     private function mapSingle(?array $row): ?User {
@@ -39,7 +47,7 @@ class User{
         }
 
         return new User(
-            $row['id'],
+            (int)$row['id'],
             $row['username'],
             $row['email'],
             $row['password'],
@@ -48,12 +56,20 @@ class User{
 
     }
 
+    private function mapAll(?array $rows): ?array {
+        if (!$rows) {
+            return null;
+        }
+
+        return array_map(fn($row) => $this->mapSingle($row), $rows);
+    }
+
     public function get(): array {
         $sql = "SELECT * FROM users";
         $stmt = $this->con->prepare($sql);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return array_map(fn($row) => $this->mapSingle($row), $rows);
     }
 
@@ -101,14 +117,35 @@ class User{
         return $this->mapSingle($stmt->fetch(PDO::FETCH_ASSOC));
     }
 
-    public function getAllUsers() : array {}
+    public function getAllUsers() : array {
+        $sql = "SELECT * FROM users";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute();
+        return $this->mapAll($stmt->fetchAll(PDO::FETCH_ASSOC));
+    }
 
-    public function getByEmail(String $email) : ?User {}
+    public function getByEmail(String $email) : ?User {
+        $sql = "SELECT * FROM users WHERE email = :email";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute([
+            ':email' => $email
+        ]);
+        return $this->mapSingle($stmt->fetch(PDO::FETCH_ASSOC));
+    }
 
-    public function getRanking() : array {}
+    public function getByUsername(String $username) : ?User {
+        $sql = "SELECT * FROM users WHERE username = :username";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute([
+            ':username' => $username
+        ]);
+        return $this->mapSingle($stmt->fetch(PDO::FETCH_ASSOC));
+    }
+
+    //public function getRanking() : array {}
 
     //Update
-    public function updateScore(User $user) : bool {}
+    //public function updateScore(User $user) : bool {}
 
     //Delete
     public function delete(User $user) : bool {
