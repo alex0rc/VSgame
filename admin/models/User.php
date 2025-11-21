@@ -9,7 +9,7 @@ class User{
     private $db;
     private $con;
     
-    private int $id;
+    private ?int $id;
     private string $username;
     private string $email;
     private string $password;
@@ -19,10 +19,12 @@ class User{
     private bool $isHashed = false;
 
 
-    public function __construct(?int $id = null, ?string $username = null, ?string $email = null, ?string $password = null) {
+    public function __construct(?int $id = null, ?string $username = null, ?string $email = null, ?string $password = null, bool $isHashed = false) {
     $this->id = $id;
     $this->username = $username;
     $this->email = $email;
+    $this->isHashed = $isHashed;
+    
     $this->password = $this->isHashed ? $password : password_hash($password, PASSWORD_DEFAULT);
 
     $this->db = Database::getInstance();
@@ -40,7 +42,7 @@ class User{
         }
 
         return new User(
-            $row['id'],
+            (int)$row['id'],
             $row['username'],
             $row['email'],
             $row['password'],
@@ -54,7 +56,7 @@ class User{
         $stmt = $this->con->prepare($sql);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return array_map(fn($row) => $this->mapSingle($row), $rows);
     }
 
