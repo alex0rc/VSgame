@@ -20,7 +20,7 @@ session_start();
         <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
         <?php if (isset($success)) echo "<p style='color:green;'>$success</p>"; ?>
 
-        <form method="POST" id="registerForm">
+        <form method="POST" action="../api/register.php" id="registerForm">
             <label>Username</label>
             <input type="text" name="username" required>
 
