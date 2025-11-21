@@ -1,5 +1,3 @@
-Database.php
-
 <?php
 namespace admin\models;
 use PDO;
