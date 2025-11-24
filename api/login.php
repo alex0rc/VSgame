@@ -1,28 +1,39 @@
 <?php
-namespace api;
+session_start();
+// ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+
+require_once __DIR__ . '/../admin/models/User.php';
+require_once __DIR__ . '/../admin/models/Database.php';
 
 use admin\models\User;
-use admin\models\Database;
 
-require_once __DIR__.'../../admin/models/User.php';
-require_once __DIR__.'../../admin/models/Database.php';
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') exit("Acceso denegado");
 
-$db = Database::getInstance();
-$con = $db->connect();
+$username = trim($_POST['username'] ?? '');
+$password = trim($_POST['password'] ?? '');
 
-$username = $_POST['username'] ?? null;
-$password = $_POST['password'] ?? null;
+if (!$username || !$password) exit("Faltan datos");
 
-$user = new User()->getByUsername($username);
+$userModel = new User();
+$user = $userModel->getByUsername($username);
 
-if($user){
-    if($user->getPassword() == password_hash($password, PASSWORD_DEFAULT)){
-        $_SESSION['user'] = $user;
-        header('Location: ../views/show.php');
-    }else{
-        echo "Error: Contraseña incorrecta";
-    }
-}else{
-    echo "Error: Usuario no encontrado";
+if (!$user) exit("Usuario no encontrado");
+if (!password_verify($password, $user->getPassword())) exit("Contraseña incorrecta");
+
+$_SESSION['user'] = [
+    'id' => $user->getId(),
+    'username' => $user->getUsername(),
+    'email' => $user->getEmail(),
+    'role' => $user->getRole()
+];
+
+
+// REDIRECCIÓN
+if ($_SESSION['user']['role'] === 'admin') {
+    header('Location: ../admin/views/dashboard.php');
+    exit;
 }
 
+header('Location: ../views/show.php');
+exit;
