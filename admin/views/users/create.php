@@ -3,6 +3,10 @@
 <h1>Crear Usuario</h1>
 
 <form action="?controller=user&action=store" method="POST">
+    <label>Nombre:</label>
+    <br>
+    <input type="text" name="username" required>
+
     <label>Email:</label>
     <br>
     <input type="email" name="email" required>

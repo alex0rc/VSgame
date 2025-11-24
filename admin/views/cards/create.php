@@ -1,34 +1,34 @@
 <?php require_once __DIR__ . '/../header.php'; ?>
 
-<h1>Cartas</h1>
+<h1>Crear carta</h1>
 
-<a href="?controller=card&action=create" class="btn">Crear nueva carta</a>
+<form action="?controller=card&action=store" method="POST">
+    <label>Nombre:</label>
+    <br>
+    <input type="text" name="name" required>
 
-<table border="1" width="100%" cellpadding="8">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Email</th>
-            <th>Puntuación</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php if (!empty($users)): ?>
-            <?php foreach ($users as $u): ?>
-                <tr>
-                    <td><?= htmlspecialchars($u['id']) ?></td>
-                    <td><?= htmlspecialchars($u['email']) ?></td>
-                    <td><?= htmlspecialchars($u['score']) ?></td>
-                    <td>
-                        <a href="?controller=user&action=edit&id=<?= $u['id'] ?>">Editar</a>
-                        |
-                        <a href="?controller=user&action=delete&id=<?= $u['id'] ?>" onclick="return confirm('¿Eliminar usuario?');">Eliminar</a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <tr><td colspan="4">No hay usuarios registrados.</td></tr>
-        <?php endif; ?>
-    </tbody>
-</table>
+    <br><br>
+
+    <label>Ataque:</label>
+    <br>
+    <input type="number" name="attack" required>
+
+    <br><br>   
+
+    <label>Defensa:</label>
+    <br>
+    <input type="number" name="defense" required>
+
+    <br><br>
+    
+    <label>Imagen:</label>
+    <br>
+    <input type="text" name="image" required>
+
+    <br><br>
+    
+    <button type="submit">Crear usuario</button>
+</form>
+
+<br>
+<a href="?controller=card&action=list">Volver al listado</a>
