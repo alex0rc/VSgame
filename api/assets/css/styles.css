@@ -1,0 +1,156 @@
+/* ------------------------------
+   RESET BÁSICO
+------------------------------ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f4f4;
+  color: #222;
+  padding-bottom: 40px;
+}
+
+/* ------------------------------
+   NAVEGACIÓN ADMIN
+------------------------------ */
+.admin-nav {
+  background: #222;
+  color: #fff;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.admin-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.admin-nav a:hover {
+  text-decoration: underline;
+}
+
+.admin-title {
+  margin-right: auto;
+  font-weight: bold;
+}
+
+.logout-btn {
+  margin-left: auto;
+  color: #ff8080 !important;
+}
+
+/* ------------------------------
+   LOGIN
+------------------------------ */
+.login-box {
+  width: 320px;
+  margin: 120px auto;
+  padding: 25px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-box h2 {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.login-box label {
+  font-weight: bold;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 8px;
+  margin: 6px 0 12px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.error-msg {
+  color: red;
+  margin-bottom: 10px;
+}
+
+/* ------------------------------
+   BOTONES
+------------------------------ */
+button,
+.btn,
+.btn-primary {
+  display: inline-block;
+  padding: 8px 14px;
+  background: #222;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover,
+.btn:hover,
+.btn-primary:hover {
+  background: #444;
+}
+
+/* ------------------------------
+   TABLAS
+------------------------------ */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+table th {
+  background: #333;
+  color: #fff;
+  text-align: left;
+}
+
+/* ------------------------------
+   FORMULARIOS
+------------------------------ */
+form label {
+  font-weight: bold;
+}
+
+form input,
+form select {
+  width: 100%;
+  padding: 8px;
+  margin: 6px 0 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  margin-top: 10px;
+}
+
+/* ------------------------------
+   ESPACIADOS GENERALES
+------------------------------ */
+h1,
+h2,
+h3 {
+  margin: 20px 0 10px;
+}
+
+a.btn {
+  margin-top: 15px;
+}

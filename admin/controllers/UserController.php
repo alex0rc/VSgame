@@ -2,7 +2,6 @@
 namespace admin\controllers;
 
 use admin\models\User;
-use admin\views\users;
 
 require_once __DIR__.'/../models/User.php';
 
@@ -12,7 +11,26 @@ class UserController{
         $users = $u->getAllUsers();
 
         if($users != null){
-            
+            require __DIR__ . '/../views/users/list.php';
         }
     }
+
+    public function store(User $user) : void{
+        if($user == null){
+            throw new \InvalidArgumentException('No se proporcionó un usuario');
+        } else {
+            $user->save();
+            header('Location: ?controller=user&action=list');
+        }
+    }
+
+    public function update(User $user) : void{
+        if($user == null){
+            throw new \InvalidArgumentException('No se proporcionó un usuario');
+        } else {
+            $user->save();
+            header('Location: ?controller=user&action=list');
+        }
+    }
+
 }
