@@ -3,12 +3,12 @@ session_start();
 
 // Bloquear acceso si no hay sesión
 if (!isset($_SESSION['user'])) {
-    header('Location: ../views/login_form.php'); // ruta correcta a tu login
+    header('Location: ./login.php');
     exit();
 }
 
-$user = $_SESSION['user']; // <-- Array con id, username, email
-$username = $user['username'] ?? ''; // evita warnings
+$user = $_SESSION['user']; // Array con id, username, email
+$username = $user['username'] ?? '';
 $email = $user['email'] ?? '';
 ?>
 
@@ -23,28 +23,49 @@ $email = $user['email'] ?? '';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        /* Modal historial */
+        #modalHistorial {
+            display: none;
+            position: fixed;
+            top: 10%;
+            left: 10%;
+            width: 80%;
+            height: 80%;
+            background: #111;
+            color: #fff;
+            overflow-y: auto;
+            padding: 20px;
+            border: 3px solid #fff;
+            z-index: 1000;
+        }
+
+        #modalHistorial .closeBtn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .hist-item hr {
+            border: 1px dashed #fff;
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- Cabecera con nombre de usuario y logout -->
+    <!-- Cabecera -->
     <header class="header">
         <div>Bienvenido, <?= htmlspecialchars($username) ?>!</div>
         <a href="logout.php" class="logout-btn">Cerrar sesión</a>
     </header>
 
-    <!-- Formulario oculto para elegir ataque o defensa -->
-    <form action="" method="GET" id="formEnvio" style="display: none;">
-        <select name="opcionJugada" id="opcionJugada">
-            <option value="ataque">Ataque</option>
-            <option value="defensa">Defensa</option>
-        </select>
-        <input type="submit" value="Enviar">
-    </form>
-
+    <!-- Contenedor de cartas -->
     <div class="container">
         <!-- CARTA JUGADOR -->
-        <div class="card" data-id-carta="1" id="cartaJugador">
+        <div class="card" id="cartaJugador">
             <img id="imgJugador" src="../assets/img/cards/1_card.jpg" alt="Carta del Jugador">
             <span class="atk" id="atkJugador">--</span>
             <span class="def" id="defJugador">--</span>
@@ -53,7 +74,7 @@ $email = $user['email'] ?? '';
         <img src="../assets/img/vs.png" alt="VS" class="vs">
 
         <!-- CARTA MÁQUINA -->
-        <div class="card" data-id-carta="2" id="cartaMaquina">
+        <div class="card" id="cartaMaquina">
             <img id="imgMaquina" src="../assets/img/cards/2_card.jpg" alt="Carta de la Máquina">
             <span class="atk" id="atkMaquina">--</span>
             <span class="def" id="defMaquina">--</span>
@@ -63,12 +84,9 @@ $email = $user['email'] ?? '';
     <!-- Botones Ataque / Defensa -->
     <div class="container">
         <div class="buttons">
-            <a href="#" id="atacar" onclick="atacar(); return false">
-                <img src="../assets/img/atacar.png" alt="atacar" class="btn">
-            </a>
-            <a href="#" id="defensa" onclick="defender(); return false">
-                <img src="../assets/img/defender.png" alt="defender" class="btn">
-            </a>
+            <a href="#" id="atacar"><img src="../assets/img/atacar.png" alt="atacar" class="btn"></a>
+            <a href="#" id="defensa"><img src="../assets/img/defender.png" alt="defender" class="btn"></a>
+            <a href="#" id="historialBtn"><img src="../assets/img/historial.png" alt="historial" class="btn"></a>
         </div>
     </div>
 
@@ -92,8 +110,30 @@ $email = $user['email'] ?? '';
         </div>
     </div>
 
+    <!-- Modal historial -->
+    <div id="modalHistorial">
+        <span class="closeBtn" onclick="cerrarHistorial()">✖</span>
+        <h2>Historial de Rondas</h2>
+        <div id="historialContenido"></div>
+    </div>
+
     <!-- Scripts -->
     <script src="../assets/js/app.js"></script>
+    <script>
+        // Conectar botones a funciones JS
+        document.getElementById("atacar").addEventListener("click", e => {
+            e.preventDefault();
+            atacar();
+        });
+        document.getElementById("defensa").addEventListener("click", e => {
+            e.preventDefault();
+            defender();
+        });
+        document.getElementById("historialBtn").addEventListener("click", e => {
+            e.preventDefault();
+            mostrarHistorial();
+        });
+    </script>
 </body>
 
 </html>
