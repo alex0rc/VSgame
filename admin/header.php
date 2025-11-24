@@ -2,7 +2,12 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../login.php");
+    header("Location: /index.php");
+    exit;
+}
+
+if ($_SESSION['role'] !== 'admin') {
+    header("Location: /index.php");
     exit;
 }
 ?>
@@ -22,7 +27,7 @@ if (!isset($_SESSION['user_id'])) {
     <a href="?controller=card&action=list">Cartas</a>
     <a href="?controller=game&action=list">Partidas</a>
 
-    <a href="../api/logout.php" class="logout-btn">Salir</a>
+    <a href="/api/logout.php" class="logout-btn">Salir</a>
 </nav>
 
 <hr>
