@@ -1,52 +1,56 @@
 <?php
+
 namespace admin\models;
 
-require_once __DIR__.'/Database.php';
+require_once __DIR__ . '/Database.php';
 
 use admin\models\Database;
 use PDO;
+use Exception;
 
-class Game{
-    private $db;
+class Game
+{
+
     private $con;
 
-    private int $id;
     private int $user_id;
     private int $difficulty_id;
-    private int $total_rounds = 5;
+    private int $total_rounds;
     private int $rounds_won;
-    private bool $result;
+    private int $result;
 
-    public function __construct(int $user_id, int $difficulty_id, bool $result, int $total_rounds = 5, int $rounds_won = 0){
-        $this->db = Database::getInstance();
-        $this->con = $this->db->connect();
+    public function __construct(int $user_id, int $difficulty_id, int $result, int $total_rounds, int $rounds_won)
+    {
+        $this->con = Database::getInstance()->connect();
+
+        $this->user_id = $user_id;
+        $this->difficulty_id = $difficulty_id;
+        $this->total_rounds = $total_rounds;
+        $this->rounds_won = $rounds_won;
+        $this->result = $result;
     }
 
-    //Getters
+    // GUARDAR PARTIDA
+    public function save(): bool
+    {
+        $sql = "INSERT INTO games (user_id, difficulty_id, total_rounds, rounds_won, result)
+                VALUES (:user_id, :difficulty_id, :total_rounds, :rounds_won, :result)";
 
-    //Setters
-
-    public function get(): array {
-        $sql = "SELECT * FROM games";
         $stmt = $this->con->prepare($sql);
-        $stmt->execute();
 
+        return $stmt->execute([
+            ':user_id'       => $this->user_id,
+            ':difficulty_id' => $this->difficulty_id,
+            ':total_rounds'  => $this->total_rounds,
+            ':rounds_won'    => $this->rounds_won,
+            ':result'        => $this->result
+        ]);
+    }
+
+    public function all(): array
+    {
+        $sql = "SELECT * FROM games";
+        $stmt = $this->con->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    public function all() : array {
-        return $this->get();
-    }
-
-    //Create
-    //public function save() : bool {}
-
-    //Read
-    //public function find(int $id) : ?Game {}
-
-    //public function getAllGames() : array {}
-
-    //public function getUserGames(int $id) : array {}
-
-    //public function getUserStats(int $id) : array {}
 }
