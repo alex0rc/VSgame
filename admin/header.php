@@ -26,6 +26,7 @@ if ($_SESSION['role'] !== 'admin') {
     <a href="?controller=user&action=list">Usuarios</a>
     <a href="?controller=card&action=list">Cartas</a>
     <a href="?controller=game&action=list">Partidas</a>
+    <a href="../views/show.php">Juego</a>
 
     <a href="/api/logout.php" class="logout-btn">Salir</a>
 </nav>
