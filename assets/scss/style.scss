@@ -305,3 +305,25 @@ form + p a {
 form + p a:hover {
     text-decoration: underline;
 }
+.error-box,
+.success-box {
+    margin: 10px 0;
+    padding: 10px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 4px;
+    text-shadow: 1px 1px #000;
+}
+
+.error-box {
+    background: rgba(255, 0, 0, 0.2);
+    border: 2px solid red;
+    color: #ff4d4d;
+}
+
+.success-box {
+    background: rgba(0, 255, 0, 0.2);
+    border: 2px solid lime;
+    color: lime;
+}
