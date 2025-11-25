@@ -1,26 +1,52 @@
 <?php
-namespace api;
+session_start();
+
+require_once __DIR__ . '/../admin/models/User.php';
+require_once __DIR__ . '/../admin/models/Database.php';
 
 use admin\models\User;
-use admin\models\Database;
-use Exception;
 
-require_once __DIR__.'../../admin/models/User.php';
-require_once __DIR__.'../../admin/models/Database.php';
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    $_SESSION['error_register'] = "Acceso denegado";
+    header("Location: ../views/register.php");
+    exit();
+}
 
-$db = Database::getInstance();
-$con = $db->connect();
+$username = trim($_POST['username'] ?? '');
+$email    = trim($_POST['email'] ?? '');
+$password = trim($_POST['password'] ?? '');
 
-$id = $_POST['id'] ?? null;
-$username = $_POST['username'] ?? null;
-$email = $_POST['email'] ?? null;
-$password = $_POST['password'] ?? null;
+if (!$username || !$email || !$password) {
+    $_SESSION['error_register'] = "Faltan datos por completar";
+    header("Location: ../views/register.php");
+    exit();
+}
 
-$user = new User($id, $username, $email, $password);
+$userModel = new User();
 
-try{
-    $user->save();
-    echo "Registration successful";
-}catch(Exception $e){
-    echo "Error: ".$e->getMessage();
+// Comprobar si el usuario ya existe
+if ($userModel->getByUsername($username)) {
+    $_SESSION['error_register'] = "El nombre de usuario ya está registrado";
+    header("Location: ../views/register.php");
+    exit();
+}
+
+if ($userModel->getByEmail($email)) {
+    $_SESSION['error_register'] = "El correo ya está registrado";
+    header("Location: ../views/register.php");
+    exit();
+}
+
+// Crear usuario
+$newUser = new User(null, $username, $email, $password);
+
+if ($newUser->save()) {
+
+    $_SESSION['success_register'] = "Registro exitoso, ahora inicia sesión";
+    header('Location: ../views/login.php');
+    exit();
+} else {
+    $_SESSION['error_register'] = "Error al registrar el usuario";
+    header("Location: ../views/register.php");
+    exit();
 }
