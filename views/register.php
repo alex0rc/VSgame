@@ -16,6 +16,12 @@ session_start();
     <div class="form-container">
         <h1>VSGAME</h1>
         <h2>Registro</h2>
+        <?php
+        if (isset($_SESSION['error_register'])) {
+            echo "<div class='error-box'>" . $_SESSION['error_register'] . "</div>";
+            unset($_SESSION['error_register']);
+        }
+        ?>
 
         <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
         <?php if (isset($success)) echo "<p style='color:green;'>$success</p>"; ?>
@@ -37,6 +43,8 @@ session_start();
             <a href="./login.php">Iniciar Sesión</a>
         </p>
     </div>
+    <script src="../assets/js/form-validator.js"></script>
+
 </body>
 
 </html>
