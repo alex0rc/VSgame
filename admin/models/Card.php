@@ -37,6 +37,7 @@ class Card{
     public function setName(string $name) : void { $this->name = $name; }
     public function setAttack(int $attack) : void { $this->attack = $attack; }
     public function setDefense(int $defense) : void { $this->defense = $defense; }
+    public function setImage(string $image) : void { $this->image = $image; }
 
     private function mapSingle(?array $row): ?Card {
         if (!$row) {

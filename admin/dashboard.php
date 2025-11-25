@@ -1,13 +1,13 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: /index.php");
+if (!isset($_SESSION['user'])) {
+    header("Location: ../views/show.php");
     exit;
 }
 
-if ($_SESSION['role'] !== 'admin') {
-    header("Location: /index.php");
+if ($_SESSION['user']['role'] !== 'admin') {
+    header("Location: ../views/show.php");
     exit;
 }
 ?>
@@ -27,8 +27,10 @@ if ($_SESSION['role'] !== 'admin') {
     <a href="?controller=card&action=list">Cartas</a>
     <a href="?controller=game&action=list">Partidas</a>
     <a href="../views/show.php">Juego</a>
+    <a href="?controller=admin&action=index">Panel de administración</a>
 
-    <a href="/api/logout.php" class="logout-btn">Salir</a>
+
+    <a href="../api/logout.php" class="logout-btn">Salir</a>
 </nav>
 
 <hr>

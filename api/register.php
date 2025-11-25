@@ -6,43 +6,47 @@ require_once __DIR__ . '/../admin/models/Database.php';
 
 use admin\models\User;
 
-// Comprobamos que vienen datos por POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    exit("Acceso denegado");
+    $_SESSION['error_register'] = "Acceso denegado";
+    header("Location: ../views/register.php");
+    exit();
 }
 
 $username = trim($_POST['username'] ?? '');
-$email = trim($_POST['email'] ?? '');
+$email    = trim($_POST['email'] ?? '');
 $password = trim($_POST['password'] ?? '');
 
-// Validación básica
 if (!$username || !$email || !$password) {
-    exit("Faltan datos");
+    $_SESSION['error_register'] = "Faltan datos por completar";
+    header("Location: ../views/register.php");
+    exit();
 }
 
 $userModel = new User();
 
 // Comprobar si el usuario ya existe
 if ($userModel->getByUsername($username)) {
-    exit("El nombre de usuario ya existe");
+    $_SESSION['error_register'] = "El nombre de usuario ya está registrado";
+    header("Location: ../views/register.php");
+    exit();
 }
 
 if ($userModel->getByEmail($email)) {
-    exit("El email ya está registrado");
+    $_SESSION['error_register'] = "El correo ya está registrado";
+    header("Location: ../views/register.php");
+    exit();
 }
 
-// Crear nuevo usuario (la contraseña se hashea automáticamente)
+// Crear usuario
 $newUser = new User(null, $username, $email, $password);
-if ($newUser->save()) {
-    // Guardamos sesión directamente
-    $_SESSION['user'] = [
-        'id' => $newUser->getId(),
-        'username' => $newUser->getUsername(),
-        'email' => $newUser->getEmail()
-    ];
 
+if ($newUser->save()) {
+
+    $_SESSION['success_register'] = "Registro exitoso, ahora inicia sesión";
     header('Location: ../views/login.php');
-    exit;
+    exit();
 } else {
-    exit("Error al registrar el usuario");
+    $_SESSION['error_register'] = "Error al registrar el usuario";
+    header("Location: ../views/register.php");
+    exit();
 }

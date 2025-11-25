@@ -17,6 +17,7 @@ class User
 
     private int $wins;
     private int $losses;
+    private bool $role;
 
     private bool $isHashed = false;
 
@@ -42,6 +43,7 @@ class User
     public function getPassword() : ?string { return $this->password; }
     public function getWins() : ?int { return $this->wins; }
     public function getLosses() : ?int { return $this->losses; }
+    public function getRole() : ?bool { return $this->role; }
 
     //Setters
     public function setId(int $id) : void { $this->id = $id; }
@@ -50,6 +52,7 @@ class User
     public function setPassword(string $password) : void { $this->password = $password; }
     public function setWins(int $wins) : void { $this->wins = $wins; }
     public function setLosses(int $losses) : void { $this->losses = $losses; }
+    public function setRole(bool $role) : void { $this->role = $role; }
 
     private function mapSingle(?array $row): ?User
     {

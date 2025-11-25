@@ -15,21 +15,35 @@ class CardController{
         }
     }
 
-    public function store(Card $card) : void{
-        if($card == null){
-            throw new \InvalidArgumentException('No se proporcionó una carta');
-        } else {
-            $card->save();
-            header('Location: ?controller=card&action=list');
-        }
+    public function store() : void{
+        $c = new Card();
+        $c->setName($_POST['name'] ?? null);
+        $c->setAttack($_POST['attack'] ?? null);
+        $c->setDefense($_POST['defense'] ?? null);
+        $c->setImage($_POST['image'] ?? null);
+
+        $c->save();
+
+        header('Location: ?controller=card&action=index');
+        exit;
     }
 
-    public function update(Card $card) : void{
-        if($card == null){
-            throw new \InvalidArgumentException('No se proporcionó una carta');
-        } else {
-            $card->save();
-            header('Location: ?controller=user&action=list');
+    public function update() : void{
+        $id = $_POST['id'] ?? null;
+
+        if (!$id) {
+            throw new \InvalidArgumentException("No se proporcionó ID");
         }
+
+        $c = new Card($id);
+        $c->setName($_POST['name'] ?? null);
+        $c->setAttack($_POST['attack'] ?? null);
+        $c->setDefense($_POST['defense'] ?? null);
+        $c->setImage($_POST['image'] ?? null);
+
+        $c->save();
+
+        header('Location: ?controller=card&action=index');
+        exit;
     }
 }
