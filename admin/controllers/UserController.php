@@ -20,7 +20,7 @@ class UserController{
             throw new \InvalidArgumentException('No se proporcionó un usuario');
         } else {
             $user->save();
-            header('Location: ?controller=user&action=list');
+            header('Location: ?controller=UserController&action=list');
         }
     }
 
@@ -29,7 +29,7 @@ class UserController{
             throw new \InvalidArgumentException('No se proporcionó un usuario');
         } else {
             $user->save();
-            header('Location: ?controller=user&action=list');
+            header('Location: ?controller=UserController&action=list');
         }
     }
 
