@@ -45,5 +45,10 @@ $_SESSION['user'] = [
     'role'     => $user->getRole()
 ];
 
+if($user->getRole() === 1){
+    header('Location: ../admin/dashboard.php');
+    exit();
+}
+
 header('Location: ../views/show.php');
 exit();

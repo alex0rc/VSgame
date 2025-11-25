@@ -2,12 +2,12 @@
 session_start();
 
 if (!isset($_SESSION['user'])) {
-    header("Location: /index.php");
+    header("Location: ../views/show.php");
     exit;
 }
 
 if ($_SESSION['user']['role'] !== 'admin') {
-    header("Location: /index.php");
+    header("Location: ../views/show.php");
     exit;
 }
 ?>
@@ -30,7 +30,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
     <a href="?controller=admin&action=index">Panel de administración</a>
 
 
-    <a href="/api/logout.php" class="logout-btn">Salir</a>
+    <a href="../api/logout.php" class="logout-btn">Salir</a>
 </nav>
 
 <hr>
