@@ -86,7 +86,10 @@ $email = $user['email'] ?? '';
         <div class="buttons">
             <a href="#" id="atacar"><img src="../assets/img/atacar.png" alt="atacar" class="btn"></a>
             <a href="#" id="defensa"><img src="../assets/img/defender.png" alt="defender" class="btn"></a>
-            <a href="#" id="historialBtn"><img src="../assets/img/historial.png" alt="historial" class="btn"></a>
+            <button id="historialBtn" class="btn-historial">Historial</button>
+
+            </button>
+
         </div>
     </div>
 
@@ -98,8 +101,8 @@ $email = $user['email'] ?? '';
     <!-- SCOREBOARD -->
     <div class="score">
         <div class="contentScore">
-            <div id="bandera" class="show">
-                <img src="../assets/img/win2.png" alt="win2" class="win2">
+            <div id="bandera">
+                <img id="banderaImg" src="" alt="bandera">
             </div>
 
             <img src="../assets/img/score.png" alt="score" id="scoreGame">
@@ -116,6 +119,20 @@ $email = $user['email'] ?? '';
         <h2>Historial de Rondas</h2>
         <div id="historialContenido"></div>
     </div>
+
+    <!-- Modal de Fin del Juego -->
+    <div id="modalInfo" class="modal-fin">
+        <div class="modal-fin-content">
+            <h2 id="modalTitulo"></h2>
+            <p id="modalMensaje"></p>
+
+            <button class="btn-modal" id="modalCerrar">Cerrar</button>
+            <button class="btn-modal" id="modalReiniciar">Reiniciar</button>
+            <button class="btn-modal" id="modalHistorialBtn">Historial</button>
+
+        </div>
+    </div>
+
 
     <!-- Scripts -->
     <script src="../assets/js/app.js"></script>
