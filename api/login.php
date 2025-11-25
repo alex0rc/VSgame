@@ -45,10 +45,5 @@ $_SESSION['user'] = [
     'role'     => $user->getRole()
 ];
 
-// Redirigir al juego
-if(['user']['role'] === 1){
-    header('Location: ../../admin/views/index.php');
-    exit();
-}
 header('Location: ../views/show.php');
 exit();

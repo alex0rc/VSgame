@@ -15,22 +15,36 @@ class UserController{
         }
     }
 
-    public function store(User $user) : void{
-        if($user == null){
-            throw new \InvalidArgumentException('No se proporcionó un usuario');
-        } else {
-            $user->save();
-            header('Location: ?controller=UserController&action=list');
-        }
+    public function store() : void{
+        $u = new User();
+        $u->setUserName($_POST['username'] ?? null);
+        $u->setEmail($_POST['email'] ?? null);
+        $u->setPassword($_POST['password'] ?? null);
+        $u->setRole($_POST['role'] ?? null);
+
+        $u->save();
+
+        header('Location: ?controller=user&action=index');
+        exit;
     }
 
-    public function update(User $user) : void{
-        if($user == null){
-            throw new \InvalidArgumentException('No se proporcionó un usuario');
-        } else {
-            $user->save();
-            header('Location: ?controller=UserController&action=list');
+    public function update() : void{
+        $id = $_POST['id'] ?? null;
+
+        if (!$id) {
+            throw new \InvalidArgumentException("No se proporcionó ID");
         }
+
+        $u = new User($id);
+        $u->setUserName($_POST['username'] ?? null);
+        $u->setEmail($_POST['email'] ?? null);
+        $u->setPassword($_POST['password'] ?? null);
+        $u->setRole($_POST['role'] ?? null);
+
+        $u->save();
+
+        header('Location: ?controller=user&action=index');
+        exit;
     }
 
 }
