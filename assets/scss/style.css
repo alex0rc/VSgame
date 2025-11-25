@@ -28,6 +28,22 @@ body {
   margin: 10px;
 }
 
+.btn-historial {
+  background: linear-gradient(90deg, #5ddcff, #3c67e3 43%, #4e00c2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(93, 220, 255, 0.4);
+  transition: 0.2s;
+}
+
+.btn-historial:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(93, 220, 255, 0.7);
+}
+
 img {
   max-width: 100%;
   width: 100%;
@@ -51,13 +67,6 @@ img {
 
 .buttons {
   margin-top: 20px;
-}
-
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin: 5px;
-  cursor: pointer;
 }
 
 .card {
@@ -86,6 +95,14 @@ button {
   background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
   justify-content: center;
   align-items: center;
+}
+
+.atk {
+  color: orange;
+}
+
+.def {
+  color: blue;
 }
 
 /* El contenido del popup */
@@ -147,19 +164,19 @@ button {
   width: -moz-fit-content;
   width: fit-content;
   font-size: 2em;
-  color: white;
+  color: rgb(235, 255, 13);
   position: absolute;
   top: 77px;
-  left: 46%;
+  left: 44%;
 }
 
 .puntuacionJ1 {
   width: -moz-fit-content;
   width: fit-content;
   font-size: 1.6em;
-  color: white;
+  color: rgb(32, 170, 255);
   position: absolute;
-  top: 73%;
+  top: 75%;
   left: 32%;
   font-weight: 700;
 }
@@ -168,16 +185,17 @@ button {
   width: -moz-fit-content;
   width: fit-content;
   font-size: 1.6em;
-  color: white;
+  color: rgb(255, 76, 76);
   position: absolute;
-  top: 73%;
+  top: 75%;
   left: 59%;
   font-weight: 700;
 }
 
 /* banderola */
 #bandera {
-  opacity: 1; /* Opacidad inicial */
+  opacity: 0; /* Opacidad inicial */
+  visibility: hidden;
   color: black; /* Color del texto */
   padding: 20px;
   border-radius: 5px;
@@ -233,6 +251,74 @@ button {
     z-index: -1;
   }
 }
+/* modal */
+/* ================================
+   MODAL FIN DEL JUEGO
+================================ */
+.modal-fin {
+  display: none; /* oculto al inicio */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-fin-content {
+  background: #111;
+  border: 3px solid #5ddcff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 20px #5ddcff;
+  width: 90%;
+  max-width: 350px;
+  animation: popIn 0.35s ease-out;
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.modal-fin h2 {
+  color: #5ddcff;
+  margin-bottom: 10px;
+}
+
+.modal-fin p {
+  color: white;
+  font-size: 14px;
+  margin: 10px 0 20px;
+}
+
+.btn-modal {
+  padding: 10px 15px;
+  margin: 8px;
+  background: linear-gradient(90deg, #5ddcff, #3c67e3 43%, #4e00c2);
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  box-shadow: 0 0 10px rgba(93, 220, 255, 0.4);
+  transition: 0.2s;
+}
+
+.btn-modal:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 15px rgba(93, 220, 255, 0.7);
+}
+
 /* ============================
    FORMULARIOS LOGIN / REGISTRO
    ============================ */
@@ -283,8 +369,13 @@ form input:focus {
   box-shadow: 0 0 8px #5ddcff;
 }
 
+.btn-modal {
+  font-family: "Press Start 2P", system-ui;
+}
+
 form button {
   margin-top: 10px;
+  font-family: "Press Start 2P", system-ui;
   padding: 12px;
   background: linear-gradient(90deg, #5ddcff, #3c67e3 43%, #4e00c2);
   color: white;
@@ -322,7 +413,6 @@ form + p a:hover {
 .success-box {
   margin: 10px 0;
   padding: 10px;
-  font-family: "Press Start 2P", cursive;
   font-size: 12px;
   text-align: center;
   border-radius: 4px;
@@ -339,4 +429,155 @@ form + p a:hover {
   background: rgba(0, 255, 0, 0.2);
   border: 2px solid lime;
   color: lime;
+}
+
+#historialBtn {
+  font-family: "Press Start 2P", system-ui;
+}
+
+/* ===============================
+   RESPONSIVE PARA MÓVILES
+   =============================== */
+@media (max-width: 940px) {
+  .container {
+    justify-content: flex-end;
+  }
+}
+@media (max-width: 768px) {
+  body {
+    background-size: cover;
+    background-attachment: fixed;
+  }
+  /* Contenedor principal en columna */
+  .container {
+    flex-direction: column;
+    gap: 20px;
+  }
+  /* Cartas más pequeñas */
+  .card {
+    width: 180px;
+    margin: 5px auto;
+  }
+  .vs {
+    width: 70px;
+    margin: 10px;
+  }
+  /* Botones más pequeños */
+  /* Botones centrados en móviles */
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center; /* <-- CENTRAR */
+    align-items: center; /* <-- CENTRAR */
+    gap: 12px;
+    margin-top: 20px;
+    width: 100%;
+  }
+  .btn {
+    width: 80px; /* Tamaño más cómodo */
+    margin: 5px; /* No empuja hacia un lado */
+  }
+  /* Scoreboard reubicado abajo y más pequeño */
+  .score {
+    width: 200px;
+    bottom: 10px;
+    left: 10px;
+  }
+  .ronda {
+    font-size: 1.6em;
+  }
+  .puntuacionJ1,
+  .puntuacionJ2 {
+    font-size: 1em;
+  }
+  #bandera {
+    right: 10px;
+  }
+  .puntuacionJ1 {
+    left: 32%;
+  }
+  .puntuacionJ2 {
+    left: 59%;
+  }
+  /* Botón restart más pequeño */
+  #restartGame {
+    right: 10px;
+    top: 10px;
+    width: 70px;
+  }
+  /* Historial modal adaptado */
+  #modalHistorial {
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 90%;
+    padding: 10px;
+  }
+  /* Formularios */
+  .form-container {
+    width: 90%;
+    margin: 40px auto;
+    padding: 20px;
+  }
+  form input {
+    font-size: 14px;
+    padding: 10px;
+  }
+  form button {
+    font-size: 15px;
+    padding: 10px;
+  }
+  h1,
+  h2 {
+    font-size: 18px;
+  }
+  .contentScore {
+    width: 180px;
+  }
+  #rondaActual {
+    top: 50px;
+    right: 30px;
+  }
+}
+/* Ultra móvil (iPhone SE y similares) */
+@media (max-width: 580px) {
+  .card {
+    width: 150px;
+  }
+  .contentScore {
+    width: 120px;
+    top: 200px;
+  }
+  #rondaActual {
+    top: 35px;
+    font-size: 1rem;
+  }
+  .vs {
+    width: 55px;
+  }
+  .btn {
+    width: 60px;
+  }
+  .puntuacionJ1,
+  .puntuacionJ2 {
+    font-size: 10px;
+  }
+  #bandera {
+    width: 40px;
+  }
+  .score {
+    width: 140px;
+  }
+  #restartGame {
+    width: 60px;
+  }
+  .buttons {
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+  .btn {
+    width: 65px;
+  }
 }/*# sourceMappingURL=style.css.map */

@@ -13,6 +13,7 @@ let game = {
     history: [],
     currentPlayerCard: null,
     currentCPUCard: null,
+    terminado: false,
 };
 
 // -------------------------------
@@ -109,10 +110,17 @@ function mostrarCartas(playerCard, cpuCard) {
 // Acciones del jugador
 // -------------------------------
 function atacar() {
+    if (game.terminado) return;
     jugarTurno('ataque');
 }
 
 function defender() {
+    if (game.terminado) return;
+    jugarTurno('defensa');
+}
+
+function defender() {
+    if (game.terminado) return;
     jugarTurno('defensa');
 }
 
@@ -124,16 +132,18 @@ function jugarTurno(action) {
     const cpu = game.currentCPUCard;
 
     let resultado = '';
-
     if (action === 'ataque') {
         if (player.atk > cpu.def) {
             game.scorePlayer++;
             resultado = 'Ganaste (Ataque)';
+            mostrarBandera('jugador');
         } else if (player.atk < cpu.def) {
             game.scoreCPU++;
             resultado = 'Perdiste';
+            mostrarBandera('maquina');
         } else {
             resultado = 'Empate';
+            mostrarBandera('empate'); // Opcional, no hace nada
         }
     }
 
@@ -141,14 +151,18 @@ function jugarTurno(action) {
         if (player.def > cpu.atk) {
             game.scorePlayer++;
             resultado = 'Ganaste (Defensa)';
+            mostrarBandera('jugador');
         } else if (player.def < cpu.atk) {
             game.scoreCPU++;
             resultado = 'Perdiste';
+            mostrarBandera('maquina');
         } else {
             resultado = 'Empate';
+            mostrarBandera('empate'); // opcional
         }
     }
 
+    // Guardar historial
     // Guardar historial
     game.history.push({
         round: game.ronda,
@@ -158,10 +172,32 @@ function jugarTurno(action) {
         result: resultado,
     });
 
-    game.ronda++;
+    // MENSAJE SIMPLE PARA EL MODAL
+    let mensajeRonda = '';
 
+    if (action === 'ataque') {
+        mensajeRonda = `
+        Jugador elige ataque: ${player.atk} <br>
+        CPU elige defensa: ${cpu.def} <br><br>
+        <strong>${resultado}</strong>
+    `;
+    }
+
+    if (action === 'defensa') {
+        mensajeRonda = `
+        Jugador elige defensa: ${player.def} <br>
+        CPU elige ataque: ${cpu.atk} <br><br>
+        <strong>${resultado}</strong>
+    `;
+    }
+
+    // Mostrar modal de ronda
+    mostrarModal(`Ronda ${game.ronda}`, mensajeRonda, false, false);
+
+    game.ronda++;
     actualizarHUD();
 
+    // Si termina la partida → modal final
     if (game.ronda > game.totalRondas || game.mazo.length < 2) {
         finDelJuego();
     } else {
@@ -178,13 +214,47 @@ function actualizarHUD() {
     document.getElementById('scoreJ2').textContent = game.scoreCPU;
 }
 
+function mostrarBandera(ganador) {
+    const bandera = document.getElementById('bandera');
+    const banderaImg = document.getElementById('banderaImg');
+
+    if (ganador === 'jugador') {
+        banderaImg.src = '../assets/img/win1.png';
+    } else if (ganador === 'maquina') {
+        banderaImg.src = '../assets/img/win2.png';
+    } else {
+        return; // no mostrar en empate
+    }
+
+    // Mostrar bandera antes de animarla
+    bandera.style.visibility = 'visible';
+    bandera.style.opacity = '1';
+
+    bandera.classList.remove('show');
+    void bandera.offsetWidth;
+    bandera.classList.add('show');
+}
+
 // -------------------------------
 // Fin del juego
 // -------------------------------
 function finDelJuego() {
-    alert(
-        `Juego terminado.\nJugador: ${game.scorePlayer}\nCPU: ${game.scoreCPU}`
-    );
+    game.terminado = true;
+
+    document.getElementById('atacar').style.pointerEvents = 'none';
+    document.getElementById('defensa').style.pointerEvents = 'none';
+
+    let mensaje = `Jugador: ${game.scorePlayer} - CPU: ${game.scoreCPU}`;
+
+    let titulo =
+        game.scorePlayer > game.scoreCPU
+            ? '¡Victoria!'
+            : game.scorePlayer < game.scoreCPU
+            ? 'Derrota...'
+            : 'Empate';
+
+    mostrarModal(titulo, mensaje, true, true);
+
     guardarScore();
 }
 
@@ -212,6 +282,13 @@ function guardarScore() {
 // -------------------------------
 document.getElementById('restartGame').addEventListener('click', (e) => {
     e.preventDefault();
+
+    // Reactivar botones
+    document.getElementById('atacar').style.pointerEvents = 'auto';
+    document.getElementById('defensa').style.pointerEvents = 'auto';
+
+    game.terminado = false;
+
     iniciarJuego();
 });
 
@@ -238,6 +315,46 @@ function mostrarHistorial() {
     document.getElementById('modalHistorial').style.display = 'block';
 }
 
+function mostrarModal(
+    titulo,
+    mensaje,
+    mostrarReiniciar = false,
+    mostrarHistorial = false
+) {
+    const modal = document.getElementById('modalInfo');
+    const mTitulo = document.getElementById('modalTitulo');
+    const mMensaje = document.getElementById('modalMensaje');
+    const btnReiniciar = document.getElementById('modalReiniciar');
+    const btnHistorial = document.getElementById('modalHistorialBtn');
+
+    mTitulo.textContent = titulo;
+    mMensaje.innerHTML = mensaje;
+
+    btnReiniciar.style.display = mostrarReiniciar ? 'inline-block' : 'none';
+    btnHistorial.style.display = mostrarHistorial ? 'inline-block' : 'none';
+
+    modal.style.display = 'flex';
+}
+
 function cerrarHistorial() {
     document.getElementById('modalHistorial').style.display = 'none';
 }
+
+document.getElementById('modalCerrar').addEventListener('click', () => {
+    document.getElementById('modalInfo').style.display = 'none';
+});
+
+document.getElementById('modalReiniciar').addEventListener('click', () => {
+    document.getElementById('modalInfo').style.display = 'none';
+
+    document.getElementById('atacar').style.pointerEvents = 'auto';
+    document.getElementById('defensa').style.pointerEvents = 'auto';
+
+    game.terminado = false;
+    iniciarJuego();
+});
+
+document.getElementById('modalHistorialBtn').addEventListener('click', () => {
+    document.getElementById('modalInfo').style.display = 'none';
+    mostrarHistorial();
+});

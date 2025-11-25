@@ -10,6 +10,9 @@ session_start();
     <meta charset="UTF-8">
     <title>VSGAME - Registro</title>
     <link rel="stylesheet" href="../assets/scss/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 
 <body>
