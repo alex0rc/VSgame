@@ -1,8 +1,6 @@
-<?php require_once __DIR__ . '/../dashboard.php'; ?>
-
 <h1>Cartas</h1>
 
-<a href="?controller=card&action=create" class="btn">Crear nueva carta</a>
+<a href="/VSgame/index.php?controller=card&action=create" class="btn">Crear nueva carta</a>
 
 <table border="1" width="100%" cellpadding="8">
     <thead>
@@ -18,15 +16,15 @@
         <?php if (!empty($cards)): ?>
             <?php foreach ($cards as $c): ?>
                 <tr>
-                    <td><?= htmlspecialchars($c['id']) ?></td>
-                    <td><?= htmlspecialchars($c['name']) ?></td>
-                    <td><?= htmlspecialchars($c['attack']) ?></td>
-                    <td><?= htmlspecialchars($c['defense']) ?></td>                    
-                    <td><?= htmlspecialchars($c['image']) ?></td>
+                    <td><?= htmlspecialchars($c->getId()) ?></td>
+                    <td><?= htmlspecialchars($c->getName()) ?></td>
+                    <td><?= htmlspecialchars($c->getAttack()) ?></td>
+                    <td><?= htmlspecialchars($c->getDefense()) ?></td>                    
+                    <td><?= htmlspecialchars($c->getImage()) ?></td>
                     <td>
-                        <a href="?controller=card&action=edit&id=<?= $c['id'] ?>">Editar</a>
+                        <a href="?controller=card&action=edit&id=<?= $c->getId() ?>">Editar</a>
                         |
-                        <a href="?controller=card&action=delete&id=<?= $c['id'] ?>" onclick="return confirm('¿Eliminar carta?');">Eliminar</a>
+                        <a href="?controller=card&action=delete&id=<?= $c->getId() ?>" onclick="return confirm('¿Eliminar carta?');">Eliminar</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

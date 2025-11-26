@@ -1,5 +1,3 @@
-<?php require_once __DIR__ . '/../dashboard.php'; ?>
-
 <h1>Crear carta</h1>
 
 <form action="?controller=card&action=store" method="POST">
@@ -27,7 +25,7 @@
 
     <br><br>
     
-    <button type="submit">Crear usuario</button>
+    <button type="submit">Crear carta</button>
 </form>
 
 <br>

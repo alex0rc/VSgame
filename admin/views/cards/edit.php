@@ -1,5 +1,3 @@
-<?php require_once __DIR__ . '/../dashboard.php'; ?>
-
 <h1>Editar carta</h1>
 
 <form action="?controller=card&action=update" method="POST">

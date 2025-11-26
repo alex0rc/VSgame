@@ -10,9 +10,13 @@ class CardController{
         $c = new Card();
         $cards = $c->getAllCards();
 
-        if($cards != null){
-            require __DIR__ . '/../views/cards/list.php';
-        }
+        require __DIR__ . '/../dashboard.php';
+        require __DIR__ . '/../views/cards/list.php';
+    }
+
+    public function create(): void {
+        require __DIR__ . '/../dashboard.php';
+        require __DIR__ . '/../views/cards/create.php';
     }
 
     public function store() : void{
@@ -26,6 +30,18 @@ class CardController{
 
         header('Location: ?controller=card&action=index');
         exit;
+    }
+
+    public function edit(): void {
+        $id = $_GET['id'] ?? null;
+        if (!$id) throw new \InvalidArgumentException("No se proporcionó ID");
+
+        $cardModel = new Card();
+        $card = $cardModel->find((int)$id);
+        if (!$card) throw new \RuntimeException("Usuario no encontrado");
+
+        require __DIR__ . '/../dashboard.php';
+        require __DIR__ . '/../views/cards/edit.php';
     }
 
     public function update() : void{
@@ -43,7 +59,21 @@ class CardController{
 
         $c->save();
 
-        header('Location: ?controller=card&action=index');
+        header('Location: /VSgame/index.php?controller=card&action=index');
+        exit;
+    }
+
+    public function delete() : void{
+        $id = $_GET['id'] ?? null;
+
+        if (!$id) {
+            throw new \InvalidArgumentException("No se proporcionó ID");
+        }
+
+        $c = new Card($id);
+        $c->delete($id);
+
+        header('Location: /VSgame/index.php?controller=card&action=index');
         exit;
     }
 }
