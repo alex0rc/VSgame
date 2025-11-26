@@ -58,7 +58,7 @@ $email = $user['email'] ?? '';
 
     <!-- Cabecera -->
     <header class="header">
-        <div>Bienvenido, <?= htmlspecialchars($username) ?>!</div>
+        <div>Bienvenido, <?= htmlspecialchars($username) ?>! (Role: <?= $user['role'] ?>)</div>
         <a href="logout.php" class="logout-btn">Cerrar sesión</a>
     </header>
 

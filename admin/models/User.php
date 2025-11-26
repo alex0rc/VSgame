@@ -22,12 +22,13 @@ class User
     private bool $isHashed = false;
 
 
-    public function __construct(?int $id = null, ?string $username = null, ?string $email = null, ?string $password = null, bool $isHashed = false)
+    public function __construct(?int $id = null, ?string $username = null, ?string $email = null, ?string $password = null, bool $isHashed = false, ?bool $role=false)
     {
         $this->id = $id;
         $this->username = $username;
         $this->email = $email;
         $this->isHashed = $isHashed;
+        $this->role = $role;
 
         $this->password = $this->isHashed ? $password : password_hash($password, PASSWORD_DEFAULT);
 
@@ -65,7 +66,8 @@ class User
             $row['username'],
             $row['email'],
             $row['password'],
-            true
+            true,
+            (int)$row['role']
         );
     }
 
