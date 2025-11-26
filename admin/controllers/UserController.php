@@ -26,7 +26,7 @@ class UserController {
         $u->setRol($_POST['rol'] ?? 0);
 
         $u->save();
-        header('Location: /VSgame/index.php?controller=user&action=index');
+        header('Location: /VSgame/index.php?controller=game&action=index');
         exit;
     }
 

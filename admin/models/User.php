@@ -160,7 +160,7 @@ class User
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row === false) {
-            return null; // usuario no encontrado
+            return null;
         }
 
         return $this->mapSingle($row);
@@ -176,7 +176,7 @@ class User
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row === false) {
-            return null; // email no encontrado
+            return null;
         }
 
         return $this->mapSingle($row);
