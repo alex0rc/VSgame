@@ -42,10 +42,10 @@ $_SESSION['user'] = [
     'id'       => $user->getId(),
     'username' => $user->getUsername(),
     'email'    => $user->getEmail(),
-    'role'     => $user->getRole()
+    'rol'     => $user->getrol()
 ];
 
-if($user->getRole() == 1){
+if($user->getRol() == 1){
     header('Location: ../admin/dashboard.php');
     exit();
 }

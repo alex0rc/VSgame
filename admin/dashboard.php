@@ -6,7 +6,7 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 
-if ($_SESSION['user']['role'] !== 'true') {
+if ($_SESSION['user']['rol'] !== 1) {
     header("Location: ../views/show.php");
     exit;
 }

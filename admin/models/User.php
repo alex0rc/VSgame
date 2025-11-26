@@ -17,18 +17,18 @@ class User
 
     private int $wins;
     private int $losses;
-    private bool $role;
+    private int $rol;
 
     private bool $isHashed = false;
 
 
-    public function __construct(?int $id = null, ?string $username = null, ?string $email = null, ?string $password = null, bool $isHashed = false, ?bool $role=false)
+    public function __construct(?int $id = null, ?string $username = null, ?string $email = null, ?string $password = null, bool $isHashed = false, ?int $rol=0)
     {
         $this->id = $id;
         $this->username = $username;
         $this->email = $email;
         $this->isHashed = $isHashed;
-        $this->role = $role;
+        $this->rol = $rol;
 
         $this->password = $this->isHashed ? $password : password_hash($password, PASSWORD_DEFAULT);
 
@@ -44,7 +44,7 @@ class User
     public function getPassword() : ?string { return $this->password; }
     public function getWins() : ?int { return $this->wins; }
     public function getLosses() : ?int { return $this->losses; }
-    public function getRole() : ?bool { return $this->role; }
+    public function getRol() : ?int { return $this->rol; }
 
     //Setters
     public function setId(int $id) : void { $this->id = $id; }
@@ -53,7 +53,7 @@ class User
     public function setPassword(string $password) : void { $this->password = $password; }
     public function setWins(int $wins) : void { $this->wins = $wins; }
     public function setLosses(int $losses) : void { $this->losses = $losses; }
-    public function setRole(bool $role) : void { $this->role = $role; }
+    public function setRol(int $rol) : void { $this->rol = $rol; }
 
     private function mapSingle(?array $row): ?User
     {
@@ -67,7 +67,7 @@ class User
             $row['email'],
             $row['password'],
             true,
-            (int)$row['role']
+            (int)$row['rol']
         );
     }
 
@@ -100,24 +100,26 @@ class User
     public function save(): bool
     {
         if ($this->id == null) {
-            $sql = "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)";
+            $sql = "INSERT INTO users (username, email, password, rol) VALUES (:username, :email, :password, :rol)";
             $stmt = $this->con->prepare($sql);
             if ($stmt->execute([
                 ':username' => $this->username,
                 ':email' => $this->email,
-                ':password' => $this->password
+                ':password' => $this->password,
+                ':rol' => $this->rol
             ])) {
                 return true;
             } else {
                 return false;
             }
         } else {
-            $sql = "UPDATE users SET username = :username, email = :email, password = :password WHERE id = :id";
+            $sql = "UPDATE users SET username = :username, email = :email, password = :password, rol = :rol WHERE id = :id";
             $stmt = $this->con->prepare($sql);
             if ($stmt->execute([
                 ':username' => $this->username,
                 ':email' => $this->email,
                 ':password' => $this->password,
+                ':rol' => $this->rol,
                 ':id' => $this->id
             ])) {
                 return true;
