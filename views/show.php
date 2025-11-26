@@ -59,7 +59,7 @@ $email = $user['email'] ?? '';
     <!-- Cabecera -->
     <header class="header">
         <div>Bienvenido, <?= htmlspecialchars($username) ?>!</div>
-        <a href="logout.php" class="logout-btn">Cerrar sesión</a>
+        <a class="btn-logout" href="logout.php" class="logout-btn">Cerrar sesión</a>
     </header>
 
     <!-- Contenedor de cartas -->
@@ -98,7 +98,7 @@ $email = $user['email'] ?? '';
         <img src="../assets/img/restartgame.png" alt="reiniciar">
     </a>
     <?php if ($user['rol'] == 1): ?>
-        <a href="../admin/dashboard.php" class="btn-historial">Admin Panel</a>
+        <a href="../admin/dashboard.php" class="btn-admin-panel">Admin Panel</a>
     <?php endif; ?>
 
 
