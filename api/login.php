@@ -42,7 +42,7 @@ $_SESSION['user'] = [
     'id'       => $user->getId(),
     'username' => $user->getUsername(),
     'email'    => $user->getEmail(),
-    'rol'     => $user->getrol()
+    'rol'     => $user->getRol()
 ];
 
 if($user->getRol() == 1){

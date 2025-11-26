@@ -1,4 +1,4 @@
-<?
+<?php
 $controller = $_GET['controller'] ?? 'user';
 $action = $_GET['action'] ?? 'index';
 

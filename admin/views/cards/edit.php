@@ -1,31 +1,31 @@
-<?php require_once __DIR__ . '/../header.php'; ?>
+<?php require_once __DIR__ . '/../dashboard.php'; ?>
 
 <h1>Editar carta</h1>
 
 <form action="?controller=card&action=update" method="POST">
-    <input type="hidden" name="id" value="<?= htmlspecialchars($card['id']) ?>">
+    <input type="hidden" name="id" value="<?= htmlspecialchars($card->getId()) ?>">
 
     <label>Nombre:</label>
     <br>
-    <input type="text" name="name" value="<?= htmlspecialchars($card['name']) ?>" required>
+    <input type="text" name="name" value="<?= htmlspecialchars($card->getName()) ?>" required>
 
     <br><br>
 
     <label>Ataque:</label>
     <br>
-    <input type="number" name="attack" value="<?= htmlspecialchars($card['attack']) ?>" required>
+    <input type="number" name="attack" value="<?= htmlspecialchars($card->getAttack()) ?>" required>
 
     <br><br>   
 
     <label>Defensa:</label>
     <br>
-    <input type="number" name="defense" value="<?= htmlspecialchars($card['defense']) ?>" required>
+    <input type="number" name="defense" value="<?= htmlspecialchars($card->getDefense()) ?>" required>
 
     <br><br>
     
     <label>Imagen:</label>
     <br>
-    <input type="text" name="image" value="<?= htmlspecialchars($card['image']) ?>" required>
+    <input type="text" name="image" value="<?= htmlspecialchars($card->getImage()) ?>" required>
 
     <br><br>
 

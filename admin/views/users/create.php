@@ -1,12 +1,10 @@
-<?php require_once __DIR__ . '/../header.php'; ?>
-
 <h1>Crear Usuario</h1>
 
 <form action="?controller=user&action=store" method="POST">
     <label>Nombre:</label>
     <br>
     <input type="text" name="username" required>
-
+    <br>
     <label>Email:</label>
     <br>
     <input type="email" name="email" required>
