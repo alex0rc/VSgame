@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+require_once __DIR__ . '/../config.php';
 // Bloquear acceso si no hay sesión
 if (!isset($_SESSION['user'])) {
     header('Location: ./login.php');
@@ -19,7 +19,7 @@ $email = $user['email'] ?? '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VSGame</title>
-    <link rel="stylesheet" href="../assets/scss/style.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/scss/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -66,7 +66,7 @@ $email = $user['email'] ?? '';
     <div class="container">
         <!-- CARTA JUGADOR -->
         <div class="card" id="cartaJugador">
-            <img id="imgJugador" src="../assets/img/cards/1_card.jpg" alt="Carta del Jugador">
+            <img id="imgJugador" src="<?= BASE_URL ?>/assets/img/cards/1_card.jpg" alt="Carta del Jugador">
             <span class="atk" id="atkJugador">--</span>
             <span class="def" id="defJugador">--</span>
         </div>
@@ -75,7 +75,7 @@ $email = $user['email'] ?? '';
 
         <!-- CARTA MÁQUINA -->
         <div class="card" id="cartaMaquina">
-            <img id="imgMaquina" src="../assets/img/cards/2_card.jpg" alt="Carta de la Máquina">
+            <img id="imgMaquina" src="<?= BASE_URL ?>/assets/img/cards/2_card.jpg" alt="Carta de la Máquina">
             <span class="atk" id="atkMaquina">--</span>
             <span class="def" id="defMaquina">--</span>
         </div>
@@ -84,8 +84,8 @@ $email = $user['email'] ?? '';
     <!-- Botones Ataque / Defensa -->
     <div class="container">
         <div class="buttons">
-            <a href="#" id="atacar"><img src="../assets/img/atacar.png" alt="atacar" class="btn"></a>
-            <a href="#" id="defensa"><img src="../assets/img/defender.png" alt="defender" class="btn"></a>
+            <a href="#" id="atacar"><img src="<?= BASE_URL ?>/assets/img/atacar.png" alt="atacar" class="btn"></a>
+            <a href="#" id="defensa"><img src="<?= BASE_URL ?>/assets/img/defender.png" alt="defender" class="btn"></a>
             <button id="historialBtn" class="btn-historial">Historial</button>
 
             </button>
@@ -95,7 +95,7 @@ $email = $user['email'] ?? '';
 
     <!-- Reiniciar juego -->
     <a href="#" id="restartGame">
-        <img src="../assets/img/restartgame.png" alt="reiniciar">
+        <img src="<?= BASE_URL ?>/assets/img/restartgame.png" alt="reiniciar">
     </a>
 
     <!-- SCOREBOARD -->
@@ -105,7 +105,7 @@ $email = $user['email'] ?? '';
                 <img id="banderaImg" src="" alt="bandera">
             </div>
 
-            <img src="../assets/img/score.png" alt="score" id="scoreGame">
+            <img src="<?= BASE_URL ?>/assets/img/score.png" alt="score" id="scoreGame">
 
             <div class="ronda" id="rondaActual">1</div>
             <div class="puntuacionJ1" id="scoreJ1">0</div>
@@ -135,7 +135,7 @@ $email = $user['email'] ?? '';
 
 
     <!-- Scripts -->
-    <script src="../assets/js/app.js"></script>
+    <script src="<?= BASE_URL ?>/assets/js/app.js"></script>
     <script>
         // Conectar botones a funciones JS
         document.getElementById("atacar").addEventListener("click", e => {

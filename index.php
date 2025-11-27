@@ -1,4 +1,19 @@
 <?php
+
+if (isset($_GET['view'])) {
+    $view = $_GET['view'];
+
+    $viewFile = __DIR__. "/views/" . $view . ".php";
+
+    if (file_exists($viewFile)) {
+        require $viewFile;
+        exit;
+    } else {
+        echo "Error: Vista '$view' no encontrada.";
+        exit;
+    }
+}
+
 $controller = $_GET['controller'] ?? 'user';
 $action = $_GET['action'] ?? 'index';
 
