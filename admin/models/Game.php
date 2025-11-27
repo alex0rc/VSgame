@@ -16,17 +16,19 @@ class Game
     private ?int $id;
     private ?int $user_id;
     private ?int $difficulty_id;
+    private ?string $date;
     private ?int $total_rounds;
     private ?int $rounds_won;
     private ?int $result;
 
-    public function __construct( ?int $id = null, ?int $user_id = null, ?int $difficulty_id = null, ?int $total_rounds = null, ?int $rounds_won = null, ?int $result = null)
+    public function __construct( ?int $id = null, ?int $user_id = null, ?int $difficulty_id = null, ?string $date = null, ?int $total_rounds = null, ?int $rounds_won = null, ?int $result = null)
     {
         $this->con = Database::getInstance()->connect();
 
         $this->id = $id;
         $this->user_id = $user_id;
         $this->difficulty_id = $difficulty_id;
+        $this->date = $date;
         $this->total_rounds = $total_rounds;
         $this->rounds_won = $rounds_won;
         $this->result = $result;
@@ -44,6 +46,7 @@ class Game
     public function getId() : ?int { return $this->id; }
     public function getUserId() : ?int { return $this->user_id; }
     public function getDifficultyId() : ?int { return $this->difficulty_id; }
+    public function getDate() : ?string { return $this->date; }
     public function getTotalRounds() : ?int { return $this->total_rounds; }
     public function getRoundsWon() : ?int { return $this->rounds_won; }
     public function getResult() : ?int { return $this->result; }
@@ -58,6 +61,7 @@ class Game
             (int)$row['id'],
             (int)$row['user_id'],
             (int)$row['difficulty_id'],
+            (string)$row['date'],
             (int)$row['total_rounds'],
             (int)$row['rounds_won'],
             (int)$row['result']

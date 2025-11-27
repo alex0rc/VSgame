@@ -1,30 +1,42 @@
 <h1>Partidas</h1>
 
+<a href="/VSgame/index.php?controller=game&action=create" class="btn">Crear nueva partida</a>
+
+
 <table border="1" width="100%" cellpadding="8">
     <thead>
         <tr>
             <th>ID</th>
-            <th>Email</th>
-            <th>Nombre de usuario</th>
+            <th>ID del jugador</th>
+            <th>ID de la dificultad</th>
+            <th>Fecha</th>
+            <th>Rondas totales</th>
+            <th>Rondas ganadas</th>
+            <th>Resultado</th>
             <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-        <?php if (!empty($users)): ?>
-            <?php foreach ($users as $u): ?>
+        <?php if (!empty($games)): ?>
+            <?php foreach ($games as $g): ?>
                 <tr>
-                    <td><?= htmlspecialchars($u->getId()) ?></td>
-                    <td><?= htmlspecialchars($u->getEmail()) ?></td>
-                    <td><?= htmlspecialchars($u->getUsername()) ?></td>
+                    <td><?= $g->getId() ?></td>
+                    <td><?= $g->getUserId() ?></td>
+                    <td><?= $g->getDifficultyId() ?></td>
+                    <td><?= $g->getDate() ?></td>
+                    <td><?= $g->getTotalRounds() ?></td>
+                    <td><?= $g->getRoundsWon() ?></td>
+                    <td><?= $g->getResult() ?></td>
                     <td>
-                        <a href="/VSgame/index.php?controller=user&action=edit&id=<?= $u->getId() ?>">Editar</a>
+                        <a href="/VSgame/index.php?controller=game&action=edit&id=<?= $g->getId() ?>">Editar</a>
                         |
-                        <a href="/VSgame/index.php?controller=user&action=delete&id=<?= $u->getId() ?>" onclick="return confirm('¿Eliminar usuario?');">Eliminar</a>
+                        <a href="/VSgame/index.php?controller=game&action=delete&id=<?= $g->getId() ?>" onclick="return confirm('¿Eliminar Partida?');">Eliminar</a>
+                    </td>
                     </td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
-            <tr><td colspan="4">No hay usuarios registrados.</td></tr>
+            <tr><td colspan="4">No hay partidas registradas.</td></tr>
         <?php endif; ?>
     </tbody>
 </table>
