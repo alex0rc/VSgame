@@ -2,10 +2,15 @@
 namespace admin\controllers;
 
 use admin\models\Game;
+use admin\validators\GameValidator;
+
 require_once __DIR__ . '/../../config.php';
 require_once __DIR__ . '/../models/Game.php';
 
-class GameController {
+class GameController 
+{
+    private GameValidator $validator;
+
     public function index(): void {
         $u = new Game();
         $games = $u->getAllGames();
@@ -20,6 +25,9 @@ class GameController {
     
     public function store(): void {
         $g = new Game();
+
+        if (!$this->validator->validateGame($g)) { throw new \InvalidArgumentException("Datos de la partida no válidos."); }
+
         $g->setUserId($_POST['user_id'] ?? null);
         $g->setDifficultyId($_POST['difficulty_id'] ?? null);
         $g->setTotalRounds($_POST['total_rounds'] ?? null);
@@ -37,6 +45,9 @@ class GameController {
         if (!$id) throw new \InvalidArgumentException("No se proporcionó ID");
 
         $g = new Game($id);
+
+        if (!$this->validator->validateGame($g)) { throw new \InvalidArgumentException("Datos de la partida no válidos."); }
+
         $g->setUserId($_POST['user_id'] ?? null);
         $g->setDifficultyId($_POST['difficulty_id'] ?? null);
         $g->setTotalRounds($_POST['total_rounds'] ?? null);
@@ -53,6 +64,9 @@ class GameController {
         if (!$id) throw new \InvalidArgumentException("No se proporcionó ID");
 
         $gameModel = new Game();
+
+        if (!$this->validator->validateGame($gameModel)) { throw new \InvalidArgumentException("Datos de la partida no válidos."); }
+
         $game = $gameModel->find((int)$id);
         if (!$game) throw new \RuntimeException("Usuario no encontrado");
 
