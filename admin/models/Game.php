@@ -94,72 +94,85 @@ class Game
     }
 
     //Create
-    public function save(): bool
-    {
-        if($this->id == null){
-            $sql = "INSERT INTO games (user_id, difficulty_id, total_rounds, rounds_won, result)
+public function save(): bool
+{
+    $this->result = (int)$this->result;
+
+    if ($this->id === null) {
+        // Nueva partida
+        $sql = "INSERT INTO games (user_id, difficulty_id, total_rounds, rounds_won, result)
                 VALUES (:user_id, :difficulty_id, :total_rounds, :rounds_won, :result)";
-            
-            if($this -> result == 1){
-                $sql2 = "UPDATE users SET wins = wins + 1 WHERE id = :user_id";
-                $stmt2 = $this->con->prepare($sql2);
-                $stmt2->execute([
-                    ':user_id' => $this->user_id
-                ]);
+        $stmt = $this->con->prepare($sql);
+        $inserted = $stmt->execute([
+            ':user_id'       => $this->user_id,
+            ':difficulty_id' => $this->difficulty_id,
+            ':total_rounds'  => $this->total_rounds,
+            ':rounds_won'    => $this->rounds_won,
+            ':result'        => $this->result
+        ]);
+
+        if ($inserted) {
+            $sql2 = $this->result === 1
+                ? "UPDATE users SET wins = wins + 1 WHERE id = :user_id"
+                : "UPDATE users SET losses = losses + 1 WHERE id = :user_id";
+            $stmt2 = $this->con->prepare($sql2);
+            $stmt2->execute([':user_id' => $this->user_id]);
+            return true;
+        }
+        return false;
+    } else {
+        // Partida existente
+        // Obtener resultado y user_id previos
+        $sqlPrev = "SELECT user_id, result FROM games WHERE id = :id";
+        $stmtPrev = $this->con->prepare($sqlPrev);
+        $stmtPrev->execute([':id' => $this->id]);
+        $prev = $stmtPrev->fetch(\PDO::FETCH_ASSOC);
+        $prevUserId = (int)$prev['user_id'];
+        $prevResult = (int)$prev['result'];
+
+        // Ajustar estadísticas del usuario previo si cambió el resultado
+        if ($prevResult !== $this->result || $prevUserId !== $this->user_id) {
+            // Restar del usuario original
+            if ($prevResult === 1) {
+                $sqlAdj = "UPDATE users SET wins = wins - 1 WHERE id = :user_id";
+                $stmtAdj = $this->con->prepare($sqlAdj);
+                $stmtAdj->execute([':user_id' => $prevUserId]);
             } else {
-                $sql2 = "UPDATE users SET losses = losses + 1 WHERE id = :user_id";
-                $stmt2 = $this->con->prepare($sql2);
-                $stmt2->execute([
-                    ':user_id' => $this->user_id
-                ]);
+                $sqlAdj = "UPDATE users SET losses = losses - 1 WHERE id = :user_id";
+                $stmtAdj = $this->con->prepare($sqlAdj);
+                $stmtAdj->execute([':user_id' => $prevUserId]);
             }
 
-            $stmt = $this->con->prepare($sql);
-
-            if( $stmt->execute([
-                ':id'            => $this->id,
-                ':user_id'       => $this->user_id,
-                ':difficulty_id' => $this->difficulty_id,
-                ':total_rounds'  => $this->total_rounds,
-                ':rounds_won'    => $this->rounds_won,
-                ':result'        => $this->result
-            ])) {
-                return true;
+            // Sumar al usuario actual
+            if ($this->result === 1) {
+                $sqlAdj = "UPDATE users SET wins = wins + 1 WHERE id = :user_id";
+                $stmtAdj = $this->con->prepare($sqlAdj);
+                $stmtAdj->execute([':user_id' => $this->user_id]);
             } else {
-                return false;
-            }
-        }else{
-            $sql = "UPDATE games SET user_id = :user_id, difficulty_id = :difficulty_id, total_rounds = :total_rounds, rounds_won = :rounds_won, result = :result WHERE id = :id";
-
-            if($this -> result == 1){
-                $sql2 = "UPDATE users SET wins = wins + 1 WHERE id = :user_id";
-                $stmt2 = $this->con->prepare($sql2);
-                $stmt2->execute([
-                    ':user_id' => $this->user_id
-                ]);
-            } else {
-                $sql2 = "UPDATE users SET losses = losses + 1 WHERE id = :user_id";
-                $stmt2 = $this->con->prepare($sql2);
-                $stmt2->execute([
-                    ':user_id' => $this->user_id
-                ]);
-            }
-
-            $stmt = $this->con->prepare($sql);
-            if($stmt->execute([
-                ':id'            => $this->id,
-                ':user_id'       => $this->user_id,
-                ':difficulty_id' => $this->difficulty_id,
-                ':total_rounds'  => $this->total_rounds,
-                ':rounds_won'    => $this->rounds_won,
-                ':result'        => $this->result
-            ])) {
-                return true;
-            } else {
-                return false;
+                $sqlAdj = "UPDATE users SET losses = losses + 1 WHERE id = :user_id";
+                $stmtAdj = $this->con->prepare($sqlAdj);
+                $stmtAdj->execute([':user_id' => $this->user_id]);
             }
         }
+
+        // Actualizar partida
+        $sql = "UPDATE games 
+                SET user_id = :user_id, difficulty_id = :difficulty_id, total_rounds = :total_rounds, rounds_won = :rounds_won, result = :result
+                WHERE id = :id";
+        $stmt = $this->con->prepare($sql);
+        return $stmt->execute([
+            ':id'            => $this->id,
+            ':user_id'       => $this->user_id,
+            ':difficulty_id' => $this->difficulty_id,
+            ':total_rounds'  => $this->total_rounds,
+            ':rounds_won'    => $this->rounds_won,
+            ':result'        => $this->result
+        ]);
     }
+}
+
+
+
 
     //Read
     public function find(int $id): ?Game

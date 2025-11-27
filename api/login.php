@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../admin/models/User.php';
 require_once __DIR__ . '/../admin/models/Database.php';
 
@@ -18,7 +19,7 @@ $password = trim($_POST['password'] ?? '');
 
 if (!$username || !$password) {
     $_SESSION['error_login'] = "Debes completar ambos campos";
-    header("Location: ../views/login.php");
+    header("Location: ". BASE_URL ."/views/login.php");
     exit();
 }
 
@@ -27,13 +28,13 @@ $user = $userModel->getByUsername($username);
 
 if (!$user) {
     $_SESSION['error_login'] = "Usuario no encontrado";
-    header("Location: ../views/login.php");
+    header("Location: ". BASE_URL ."/views/login.php");
     exit();
 }
 
 if (!password_verify($password, $user->getPassword())) {
     $_SESSION['error_login'] = "Contraseña incorrecta";
-    header("Location: ../views/login.php");
+    header("Location: ". BASE_URL ."/views/login.php");
     exit();
 }
 
@@ -46,10 +47,10 @@ $_SESSION['user'] = [
 ];
 
 if($user->getRol() == 1){
-    header('Location: ../admin/dashboard.php');
+    header('Location: '. BASE_URL .'/index.php');
     exit();
 }
 
-header('Location: ../views/show.php');
+header('Location: '. BASE_URL .'/views/show.php');
 
 exit();

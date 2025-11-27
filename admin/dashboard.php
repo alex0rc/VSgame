@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../config.php';
 session_start();
 
 if (!isset($_SESSION['user'])) {
@@ -23,12 +24,12 @@ if ($_SESSION['user']['rol'] !== 1) {
 <nav class="admin-nav">
     <span class="admin-title">Panel de Administración</span>
     
-    <a href="/VSgame/index.php?controller=user&action=index">Usuarios</a>
-    <a href="/VSgame/index.php?controller=card&action=index">Cartas</a>
-    <a href="/VSgame/index.php?controller=game&action=index">Partidas</a>
-    <a href="/VSgame/index.php?view=show">Juego</a>
-    <a href="/VSgame/index.php">Panel admin</a>
-    <a href="/VSgame/api/logout.php" class="logout-btn">Salir</a>
+    <a href="<?= BASE_URL ?>/index.php?controller=user&action=index">Usuarios</a>
+    <a href="<?= BASE_URL ?>/index.php?controller=card&action=index">Cartas</a>
+    <a href="<?= BASE_URL ?>/index.php?controller=game&action=index">Partidas</a>
+    <a href="<?= BASE_URL ?>/index.php?view=show">Juego</a>
+    <a href="<?= BASE_URL ?>/index.php">Panel admin</a>
+    <a href="<?= BASE_URL ?>/api/logout.php" class="logout-btn">Salir</a>
 </nav>
 
 <hr>
