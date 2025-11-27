@@ -97,6 +97,10 @@ $email = $user['email'] ?? '';
     <a href="#" id="restartGame">
         <img src="<?= BASE_URL ?>/assets/img/restartgame.png" alt="reiniciar">
     </a>
+    <?php if ($user['rol'] == 1): ?>
+        <a href="../admin/dashboard.php" class="btn-historial">Admin Panel</a>
+    <?php endif; ?>
+
 
     <!-- SCOREBOARD -->
     <div class="score">
