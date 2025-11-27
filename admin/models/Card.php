@@ -1,5 +1,8 @@
 <?php
+
 namespace admin\models;
+
+require_once __DIR__ . '/Database.php';
 
 use admin\models\Database;
 use PDO;
@@ -9,10 +12,10 @@ class Card{
     private $con;
 
     private ?int $id;
-    private string $name;
-    private int $attack;
-    private int $defense;
-    private string $image;
+    private ?string $name;
+    private ?int $attack;
+    private ?int $defense;
+    private ?string $image;
 
     public function __construct(?int $id = null, ?string $name = null, ?int $attack = null, ?int $defense = null, ?string $image = null) {
     $this->id = $id;
@@ -133,11 +136,11 @@ class Card{
     }
 
     //Delete
-    public function delete(Card $card) : bool {
+    public function delete(int $id) : bool {
         $sql = "DELETE FROM cards WHERE id = :id";
         $stmt = $this->con->prepare($sql);
         $stmt->execute([
-            ':id' => $card->id
+            ':id' => $id
         ]);
         return $stmt->rowCount() > 0;
     }

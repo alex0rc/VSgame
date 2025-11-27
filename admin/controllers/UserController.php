@@ -3,48 +3,72 @@ namespace admin\controllers;
 
 use admin\models\User;
 
-require_once __DIR__.'/../models/User.php';
+require_once __DIR__ . '/../models/User.php';
 
-class UserController{
-    public function index() : void{
+class UserController {
+    public function index(): void {
         $u = new User();
         $users = $u->getAllUsers();
-
-        if($users != null){
-            require __DIR__ . '/../views/users/list.php';
-        }
+        require __DIR__ . '/../dashboard.php';
+        require __DIR__ . '/../views/users/list.php';
     }
 
-    public function store() : void{
+    public function create(): void {
+        require __DIR__ . '/../dashboard.php';
+        require __DIR__ . '/../views/users/create.php';
+    }
+
+    public function store(): void {
         $u = new User();
-        $u->setUserName($_POST['username'] ?? null);
+        $u->setUsername($_POST['username'] ?? null);
         $u->setEmail($_POST['email'] ?? null);
         $u->setPassword($_POST['password'] ?? null);
-        $u->setRole($_POST['role'] ?? null);
+        $u->setRol($_POST['rol'] ?? 0);
 
         $u->save();
-
-        header('Location: ?controller=user&action=index');
+        header('Location: /VSgame/index.php?controller=game&action=index');
         exit;
     }
 
-    public function update() : void{
+    public function update(): void {
         $id = $_POST['id'] ?? null;
+        if (!$id) throw new \InvalidArgumentException("No se proporcionó ID");
+
+        $u = new User($id);
+        $u->setUsername($_POST['username'] ?? null);
+        $u->setEmail($_POST['email'] ?? null);
+        $u->setPassword($_POST['password'] ?? null);
+        $u->setRol($_POST['rol'] ?? 0);
+        $u->save();
+
+        header('Location: /VSgame/index.php?controller=user&action=index');
+        exit;
+    }
+
+    public function edit(): void {
+        $id = $_GET['id'] ?? null;
+        if (!$id) throw new \InvalidArgumentException("No se proporcionó ID");
+
+        $userModel = new User();
+        $user = $userModel->find((int)$id);
+        if (!$user) throw new \RuntimeException("Usuario no encontrado");
+
+        require __DIR__ . '/../dashboard.php';
+        require __DIR__ . '/../views/users/edit.php';
+    }
+
+
+    public function delete(): void {
+        $id = $_GET['id'] ?? null;
 
         if (!$id) {
             throw new \InvalidArgumentException("No se proporcionó ID");
         }
 
         $u = new User($id);
-        $u->setUserName($_POST['username'] ?? null);
-        $u->setEmail($_POST['email'] ?? null);
-        $u->setPassword($_POST['password'] ?? null);
-        $u->setRole($_POST['role'] ?? null);
+        $u->delete($id);
 
-        $u->save();
-
-        header('Location: ?controller=user&action=index');
+        header('Location: /VSgame/index.php?controller=user&action=index');
         exit;
     }
-
 }

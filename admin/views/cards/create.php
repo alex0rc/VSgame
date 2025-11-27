@@ -1,6 +1,5 @@
-<?php require_once __DIR__ . '/../header.php'; ?>
-
-<h1>Crear carta</h1>
+<main class="main-content">
+    <h1>Crear carta</h1>
 
 <form action="?controller=card&action=store" method="POST">
     <label>Nombre:</label>
@@ -27,8 +26,9 @@
 
     <br><br>
     
-    <button type="submit">Crear usuario</button>
+    <button type="submit">Crear carta</button>
 </form>
 
 <br>
 <a href="?controller=card&action=list">Volver al listado</a>
+</main>

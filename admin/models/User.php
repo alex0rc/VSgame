@@ -2,6 +2,8 @@
 
 namespace admin\models;
 
+require_once __DIR__ . '/Database.php';
+
 use admin\models\Database;
 use PDO;
 
@@ -158,7 +160,7 @@ class User
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row === false) {
-            return null; // usuario no encontrado
+            return null;
         }
 
         return $this->mapSingle($row);
@@ -174,7 +176,7 @@ class User
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row === false) {
-            return null; // email no encontrado
+            return null;
         }
 
         return $this->mapSingle($row);
@@ -187,12 +189,12 @@ class User
     //public function updateScore(User $user) : bool {}
 
     //Delete
-    public function delete(User $user): bool
+    public function delete(int $id): bool
     {
         $sql = "DELETE FROM users WHERE id = :id";
         $stmt = $this->con->prepare($sql);
         $stmt->execute([
-            ':id' => $user->id
+            ':id' => $id
         ]);
         return $stmt->rowCount() > 0;
     }

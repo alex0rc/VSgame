@@ -1,0 +1,244 @@
+// ------------------------------
+// VARIABLES
+// ------------------------------
+$font-base: "Press Start 2P", system-ui;
+$color-bg: #191c29;
+$color-text: #fff;
+$color-primary: #222;
+$color-accent: #5ddcff;
+$color-danger: #ff4d4d;
+$color-table-header: #333;
+$border-radius: 0; // retro 8-bit
+$spacing-base: 8px;
+$shadow-glow: 0 0 10px rgba(93, 220, 255, 0.4);
+
+// ------------------------------
+// MIXINS
+// ------------------------------
+@mixin button-style($bg, $color) {
+  display: inline-block;
+  padding: $spacing-base ($spacing-base * 2);
+  background: $bg;
+  color: $color;
+  border: none;
+  cursor: pointer;
+  border-radius: $border-radius;
+  text-align: center;
+  box-shadow: $shadow-glow;
+  transition: 0.2s;
+}
+
+@mixin flex-center($justify: center, $align: center, $gap: 0) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  gap: $gap;
+}
+
+// ------------------------------
+// RESET BÁSICO
+// ------------------------------
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// ------------------------------
+// BODY Y CONTENEDOR PRINCIPAL
+// ------------------------------
+body {
+  font-family: $font-base;
+  background: $color-bg;
+  color: $color-text;
+  padding-top: 70px; // espacio para nav fijo
+}
+
+.main-content {
+  padding: 20px; // separación interna
+}
+
+// ------------------------------
+// NAV FIXED
+// ------------------------------
+.admin-nav {
+  @include flex-center(start, center, 20px);
+  background: $color-primary;
+  padding: $spacing-base * 1.5 $spacing-base * 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+
+  a {
+    color: $color-text;
+    text-decoration: none;
+    font-weight: bold;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .admin-title {
+    margin-right: auto;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  .logout-btn {
+    margin-left: auto;
+    color: $color-accent !important;
+  }
+}
+
+// ------------------------------
+// TITULOS
+// ------------------------------
+.main-content h1,
+.main-content h2 {
+  font-family: $font-base;
+  color: $color-accent;
+  font-size: 1.5rem;
+  margin: 0 0 20px 0;
+  text-shadow: 2px 2px #000;
+  border-bottom: 2px solid $color-accent;
+  padding-bottom: 10px;
+}
+
+// ------------------------------
+// BOTONES RETRO
+// ------------------------------
+.btn-form,
+a.btn,
+.btn-edit,
+.btn-delete,
+.table-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 10px 0;
+  font-family: $font-base;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 2px solid #000;
+  border-radius: 0;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 2px 2px 0 #000;
+  transition: none;
+  text-decoration: none;
+
+  &:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 #000;
+  }
+}
+
+// Colores
+.btn-form,
+a.btn {
+  background-color: $color-accent;
+  color: #000;
+  &:hover {
+    background-color: lighten($color-accent, 10%);
+  }
+}
+.btn-form--primary {
+  background-color: $color-primary;
+  color: $color-text;
+  &:hover {
+    background-color: lighten($color-primary, 10%);
+    color: #fff;
+  }
+}
+.btn-edit,
+.table-btn.edit {
+  background-color: #32cd32;
+  color: #000;
+  border-color: #000;
+  &:hover {
+    background-color: #00ff00;
+    color: #fff;
+  }
+}
+.btn-delete,
+.table-btn.delete {
+  background-color: #ff0000;
+  color: #000;
+  border-color: #000;
+  &:hover {
+    background-color: #ff5555;
+    color: #fff;
+  }
+}
+
+// ------------------------------
+// TABLAS RETRO
+// ------------------------------
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-family: $font-base;
+  font-size: 10px;
+
+  th,
+  td {
+    border: 2px solid #000;
+    padding: 10px;
+    text-align: center;
+  }
+  th {
+    background: $color-accent;
+    color: #000;
+    text-shadow: 1px 1px #fff;
+  }
+  tr:nth-child(even) {
+    background: lighten($color-bg, 5%);
+  }
+  tr:hover {
+    background: lighten($color-bg, 10%);
+  }
+
+  td a {
+    margin: 0 3px;
+    display: inline-block;
+  }
+}
+
+// ------------------------------
+// FORMULARIOS RETRO
+// ------------------------------
+form {
+  margin-top: 20px;
+
+  label {
+    font-weight: bold;
+    color: $color-accent;
+    text-shadow: 1px 1px #000;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 2px solid #000;
+    border-radius: 0;
+    background: lighten($color-bg, 5%);
+    color: $color-text;
+    font-family: $font-base;
+    font-size: 12px;
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 10px $color-accent, 0 0 20px $color-accent;
+    }
+  }
+
+  button {
+    @extend .btn-form;
+  }
+}
