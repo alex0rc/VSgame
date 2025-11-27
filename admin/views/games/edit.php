@@ -1,4 +1,5 @@
-<h1>Editar Partida</h1>
+<main class="main-content">
+    <h1>Editar Partida</h1>
 
 <form action="/VSgame/index.php?controller=game&action=update" method="POST">
 
@@ -38,3 +39,4 @@
 
 <br>
 <a href="/VSgame/index.php?controller=game&action=index">Volver al listado</a>
+</main>

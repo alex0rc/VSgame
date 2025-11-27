@@ -1,4 +1,5 @@
-<h1>Editar carta</h1>
+<main class="main-content">
+    <h1>Editar carta</h1>
 
 <form action="?controller=card&action=update" method="POST">
     <input type="hidden" name="id" value="<?= htmlspecialchars($card->getId()) ?>">
@@ -32,3 +33,4 @@
 
 <br>
 <a href="?controller=card&action=list">Volver al listado</a>
+</main>

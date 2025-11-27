@@ -1,4 +1,5 @@
-<h1>Crear Partida</h1>
+<main class="main-content">
+    <h1>Crear Partida</h1>
 
 <form action="?controller=game&action=store" method="POST">
     <label>ID del jugador:</label>
@@ -39,3 +40,4 @@
 
 <br>
 <a href="?controller=game&action=index">Volver al listado</a>
+</main>

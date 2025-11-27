@@ -1,4 +1,5 @@
-<h1>Partidas</h1>
+<main class="main-content">
+    <h1>Partidas</h1>
 
 <a href="/VSgame/index.php?controller=game&action=create" class="btn">Crear nueva partida</a>
 
@@ -28,9 +29,9 @@
                     <td><?= $g->getRoundsWon() ?></td>
                     <td><?= $g->getResult() ?></td>
                     <td>
-                        <a href="/VSgame/index.php?controller=game&action=edit&id=<?= $g->getId() ?>">Editar</a>
+                        <a href="/VSgame/index.php?controller=game&action=edit&id=<?= $g->getId() ?>" class="table-btn edit">Editar</a>
                         |
-                        <a href="/VSgame/index.php?controller=game&action=delete&id=<?= $g->getId() ?>" onclick="return confirm('¿Eliminar Partida?');">Eliminar</a>
+                        <a href="/VSgame/index.php?controller=game&action=delete&id=<?= $g->getId() ?>" onclick="return confirm('¿Eliminar Partida?');" class="table-btn delete">Eliminar</a>
                     </td>
                     </td>
                 </tr>
@@ -40,3 +41,5 @@
         <?php endif; ?>
     </tbody>
 </table>
+
+</main>

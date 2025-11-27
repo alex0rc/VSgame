@@ -1,4 +1,5 @@
-<h1>Crear carta</h1>
+<main class="main-content">
+    <h1>Crear carta</h1>
 
 <form action="?controller=card&action=store" method="POST">
     <label>Nombre:</label>
@@ -30,3 +31,4 @@
 
 <br>
 <a href="?controller=card&action=list">Volver al listado</a>
+</main>

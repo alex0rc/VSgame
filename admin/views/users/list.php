@@ -1,4 +1,5 @@
-<h1>Usuarios</h1>
+<main class="main-content">
+    <h1>Usuarios</h1>
 
 <a href="/VSgame/index.php?controller=user&action=create" class="btn">Crear nuevo usuario</a>
 
@@ -19,9 +20,9 @@
                     <td><?= htmlspecialchars($u->getEmail()) ?></td>
                     <td><?= htmlspecialchars($u->getUsername()) ?></td>
                     <td>
-                        <a href="/VSgame/index.php?controller=user&action=edit&id=<?= $u->getId() ?>">Editar</a>
+                        <a href="/VSgame/index.php?controller=user&action=edit&id=<?= $u->getId() ?>" class="table-btn edit">Editar</a>
                         |
-                        <a href="/VSgame/index.php?controller=user&action=delete&id=<?= $u->getId() ?>" onclick="return confirm('¿Eliminar usuario?');">Eliminar</a>
+                        <a href="/VSgame/index.php?controller=user&action=delete&id=<?= $u->getId() ?>" onclick="return confirm('¿Eliminar usuario?');" class="table-btn delete">Eliminar</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -30,3 +31,4 @@
         <?php endif; ?>
     </tbody>
 </table>
+</main>

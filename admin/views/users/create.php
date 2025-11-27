@@ -1,4 +1,5 @@
-<h1>Crear Usuario</h1>
+<main class="main-content">
+    <h1>Crear Usuario</h1>
 
 <form action="?controller=user&action=store" method="POST">
     <label>Nombre:</label>
@@ -22,3 +23,4 @@
 
 <br>
 <a href="?controller=user&action=list">Volver al listado</a>
+</main>

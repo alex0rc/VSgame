@@ -1,4 +1,5 @@
-<h1>Editar Usuario</h1>
+<main class="main-content">
+    <h1>Editar Usuario</h1>
 
 <form action="/VSgame/index.php?controller=user&action=update" method="POST">
     <!-- ID oculto -->
@@ -32,3 +33,4 @@
 
 <br>
 <a href="/VSgame/index.php?controller=user&action=index">Volver al listado</a>
+</main>

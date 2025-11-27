@@ -1,4 +1,5 @@
-<h1>Cartas</h1>
+<main class="main-content">
+    <h1>Cartas</h1>
 
 <a href="/VSgame/index.php?controller=card&action=create" class="btn">Crear nueva carta</a>
 
@@ -10,6 +11,7 @@
             <th>Ataque</th>
             <th>Defensa</th>
             <th>Imagen</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -22,9 +24,9 @@
                     <td><?= htmlspecialchars($c->getDefense()) ?></td>                    
                     <td><?= htmlspecialchars($c->getImage()) ?></td>
                     <td>
-                        <a href="?controller=card&action=edit&id=<?= $c->getId() ?>">Editar</a>
+                        <a href="?controller=card&action=edit&id=<?= $c->getId() ?>" class="table-btn edit">Editar</a>
                         |
-                        <a href="?controller=card&action=delete&id=<?= $c->getId() ?>" onclick="return confirm('¿Eliminar carta?');">Eliminar</a>
+                        <a href="?controller=card&action=delete&id=<?= $c->getId() ?>" onclick="return confirm('¿Eliminar carta?');" class="table-btn delete">Eliminar</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -33,3 +35,4 @@
         <?php endif; ?>
     </tbody>
 </table>
+</main>

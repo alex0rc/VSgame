@@ -17,7 +17,9 @@ if ($_SESSION['user']['rol'] !== 1) {
 <head>
     <meta charset="UTF-8">
     <title>Panel Administración - VSgame</title>
-    <link rel="stylesheet" href="/VSgame/assets/css/styles.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/api/assets/css/styles.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -31,5 +33,3 @@ if ($_SESSION['user']['rol'] !== 1) {
     <a href="<?= BASE_URL ?>/index.php">Panel admin</a>
     <a href="<?= BASE_URL ?>/api/logout.php" class="logout-btn">Salir</a>
 </nav>
-
-<hr>
