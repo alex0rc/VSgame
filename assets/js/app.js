@@ -14,13 +14,15 @@ let game = {
     currentPlayerCard: null,
     currentCPUCard: null,
     terminado: false,
+    difficulty_id: null, // ✅ nueva propiedad
 };
 
 // -------------------------------
 // Inicialización
 // -------------------------------
-window.onload = async () => {
-    await iniciarJuego();
+window.onload = () => {
+    // no iniciar el juego aun
+    document.getElementById('modalDificultad').style.display = 'flex';
 };
 
 // -------------------------------
@@ -61,13 +63,57 @@ function mezclar(array) {
     return array;
 }
 
+// ---------------------------------------------------
+// Aplicar modificadores según dificultad
+// ---------------------------------------------------
+function aplicarDificultad() {
+    // EASY = id 1 → jugador buff (+1 todo)
+    if (game.difficulty_id === 1) {
+        game.mazo = game.mazo.map((c) => ({
+            ...c,
+            atk: c.atk + 1,
+            def: c.def + 1,
+        }));
+    }
+
+    // NORMAL = id 2 → sin cambios
+
+    // HARD = id 3 → jugador debuff (-1 todo)
+    if (game.difficulty_id === 3) {
+        game.mazo = game.mazo.map((c) => ({
+            ...c,
+            atk: c.atk - 1,
+            def: c.def - 1,
+        }));
+    }
+}
+
+// ---------------------------------------------------
+// Definir número de rondas según dificultad
+// ---------------------------------------------------
+function setRondasPorDificultad() {
+    if (game.difficulty_id === 1) game.totalRondas = 4; // EASY
+    if (game.difficulty_id === 2) game.totalRondas = 5; // NORMAL
+    if (game.difficulty_id === 3) game.totalRondas = 7; // HARD
+}
+
 // -------------------------------
 // Iniciar juego
 // -------------------------------
 async function iniciarJuego() {
+    // Cargar mazo desde API
     game.mazo = await cargarCartasDesdeServidor();
+
+    // Aplicar dificultad → cambio de stats
+    aplicarDificultad();
+
+    // Definir número de rondas según dificultad
+    setRondasPorDificultad();
+
+    // Mezclar cartas
     game.mazo = mezclar(game.mazo);
 
+    // Reset de estado
     game.ronda = 1;
     game.scorePlayer = 0;
     game.scoreCPU = 0;
@@ -269,6 +315,7 @@ function guardarScore() {
             scorePlayer: game.scorePlayer,
             scoreCPU: game.scoreCPU,
             totalRounds: game.ronda - 1,
+            difficulty_id: game.difficulty_id, // 🔥 AÑADIDO
             history: game.history,
         }),
     })
@@ -283,13 +330,13 @@ function guardarScore() {
 document.getElementById('restartGame').addEventListener('click', (e) => {
     e.preventDefault();
 
-    // Reactivar botones
     document.getElementById('atacar').style.pointerEvents = 'auto';
     document.getElementById('defensa').style.pointerEvents = 'auto';
 
     game.terminado = false;
+    game.difficulty_id = null; // 🔥 reset dificultad
 
-    iniciarJuego();
+    document.getElementById('modalDificultad').style.display = 'flex'; // 🔥 pedir dificultad otra vez
 });
 
 // -------------------------------
@@ -351,10 +398,27 @@ document.getElementById('modalReiniciar').addEventListener('click', () => {
     document.getElementById('defensa').style.pointerEvents = 'auto';
 
     game.terminado = false;
-    iniciarJuego();
+    game.difficulty_id = null; // 🔥 borrar dificultad anterior
+
+    document.getElementById('modalDificultad').style.display = 'flex'; // 🔥 volver a pedir dificultad
 });
 
 document.getElementById('modalHistorialBtn').addEventListener('click', () => {
     document.getElementById('modalInfo').style.display = 'none';
     mostrarHistorial();
+});
+
+// -------------------------------------------
+// Selección de dificultad
+// -------------------------------------------
+document.querySelectorAll('.dificultad-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+        const id = parseInt(btn.dataset.id);
+        game.difficulty_id = id;
+
+        document.getElementById('modalDificultad').style.display = 'none';
+
+        // 🔥 Ahora sí se puede iniciar el juego
+        iniciarJuego();
+    });
 });
