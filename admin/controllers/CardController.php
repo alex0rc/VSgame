@@ -70,7 +70,6 @@ class CardController
         $id = $_POST['id'] ?? null;
         if (!$id) throw new \InvalidArgumentException("No se proporcionó ID");
 
-        // 1. Construir carta con nuevos valores
         $c = new Card(
             (int)$id,
             $_POST['name'] ?? null,
@@ -79,12 +78,10 @@ class CardController
             $_POST['image'] ?? null
         );
 
-        // 2. Validar
         if (!$this->validator->validateCard($c)) {
             throw new \InvalidArgumentException("Datos de la carta no válidos.");
         }
 
-        // 3. Guardar cambios
         $c->save();
 
         header('Location: ?controller=card&action=index');

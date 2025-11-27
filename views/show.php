@@ -57,10 +57,11 @@ $email = $user['email'] ?? '';
 
 <body>
 
-<header class="header">
-    <div>Bienvenido, <?= htmlspecialchars($username) ?>!</div>
-    <a href="<?= BASE_URL ?>/api/logout.php" class="logout-btn">Cerrar sesión</a>
-</header>
+    <!-- Cabecera -->
+    <header class="header">
+        <div>Bienvenido, <?= htmlspecialchars($username) ?>!</div>
+        <a class="btn-logout" href="logout.php" class="logout-btn">Cerrar sesión</a>
+    </header>
 
 <div class="container">
     <!-- CARTA JUGADOR -->
@@ -110,12 +111,22 @@ $email = $user['email'] ?? '';
     </div>
 </div>
 
+<<<<<<< HEAD
 <!-- Modal historial -->
 <div id="modalHistorial">
     <span class="closeBtn" onclick="cerrarHistorial()">✖</span>
     <h2>Historial de Rondas</h2>
     <div id="historialContenido"></div>
 </div>
+=======
+    <!-- Reiniciar juego -->
+    <a href="#" id="restartGame">
+        <img src="../assets/img/restartgame.png" alt="reiniciar">
+    </a>
+    <?php if ($user['rol'] == 1): ?>
+        <a href="../admin/dashboard.php" class="btn-admin-panel">Admin Panel</a>
+    <?php endif; ?>
+>>>>>>> 5bac63c0e5eed7b1400c808b3f61d72d494b77bc
 
 <!-- Modal de Fin del Juego -->
 <div id="modalInfo" class="modal-fin">
