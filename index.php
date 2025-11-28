@@ -1,6 +1,11 @@
 <?php
 require_once __DIR__ . '/config.php';
 
+if (!isset($_GET['controller']) && !isset($_GET['action']) && !isset($_GET['view'])) {
+    header("Location: ?view=show");
+    exit;
+}
+
 //$imagePath = BASE_URL . "/assets/$folder" . $imageName ?? '';
 
 $controller = $_GET['controller'] ?? 'user';
@@ -40,8 +45,6 @@ if (file_exists($controllerFile)) {
 } else {
     echo "Error: Archivo '$controllerFile' no encontrado.";
 }
-
-
 
 if (isset($_GET['image'])) {
     $imageName = basename($_GET['image']);
