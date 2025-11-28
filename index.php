@@ -1,51 +1,12 @@
 <?php
 require_once __DIR__ . '/config.php';
 
-if (!isset($_GET['controller']) && !isset($_GET['action']) && !isset($_GET['view'])) {
-    header("Location: ?view=show");
+if (empty($_GET)) {
+    header("Location: " . BASE_URL."views/show.php");
     exit;
 }
 
-//$imagePath = BASE_URL . "/assets/$folder" . $imageName ?? '';
-
-$controller = $_GET['controller'] ?? 'user';
-$action = $_GET['action'] ?? 'index';
-
-$controllerFile = "admin/controllers/" . ucfirst($controller) . "Controller.php";
-$controllerClass = "admin\\controllers\\" . ucfirst($controller) . "Controller";
-
-if (isset($_GET['view'])) {
-    $view = $_GET['view'];
-
-    $viewFile = __DIR__. "/views/" . $view . ".php";
-
-    if (file_exists($viewFile)) {
-        require $viewFile;
-        exit;
-    } else {
-        echo "Error: Vista '$view' no encontrada.";
-        exit;
-    }
-}
-
-if (file_exists($controllerFile)) {
-    require_once $controllerFile;
-
-    if (class_exists($controllerClass)) {
-        $controllerObject = new $controllerClass();
-
-        if (method_exists($controllerObject, $action)) {
-            $controllerObject->$action();
-        } else {
-            echo "Error: Acción '$action' no encontrada.";
-        }
-    } else {
-        echo "Error: Clase '$controllerClass' no encontrada.";
-    }
-} else {
-    echo "Error: Archivo '$controllerFile' no encontrado.";
-}
-
+// 1) IMÁGENES — manejar primero
 if (isset($_GET['image'])) {
     $imageName = basename($_GET['image']);
     $folder = 'img';
@@ -55,21 +16,60 @@ if (isset($_GET['image'])) {
         $imageName = substr($imageName, 6);
     }
 
+    $imagePath = BASE_URL . "/$folder/$imageName";
+
     if (file_exists($imagePath)) {
-        $ext = pathinfo($imagePath, PATHINFO_EXTENSION);
-        switch (strtolower($ext)) {
-            case 'jpg':
-            case 'png': header('Content-Type: image/png'); break;
-            default: header('Content-Type: application/octet-stream');
-        }
+        $ext = strtolower(pathinfo($imagePath, PATHINFO_EXTENSION));
+        header("Content-Type: image/$ext");
         readfile($imagePath);
         exit;
-    } else {
-        http_response_code(404);
-        echo "Imagen no encontrada.";
-        exit;
     }
+
+    http_response_code(404);
+    echo "Imagen no encontrada.";
+    exit;
 }
 
 
-?>
+// 2) VISTAS DIRECTAS
+if (isset($_GET['view'])) {
+    $viewFile = BASE_URL . "/views/" . $_GET['view'] . ".php";
+
+    if (file_exists($viewFile)) {
+        require $viewFile;
+        exit;
+    }
+
+    echo "Error: Vista '{$_GET['view']}' no encontrada.";
+    exit;
+}
+
+
+// 3) CONTROLADORES MVC
+$controller = $_GET['controller'] ?? 'user';
+$action = $_GET['action'] ?? 'index';
+
+$controllerFile = "admin/controllers/" . ucfirst($controller) . "Controller.php";
+$controllerClass = "admin\\controllers\\" . ucfirst($controller) . "Controller";
+
+if (!file_exists($controllerFile)) {
+    echo "Error: Archivo '$controllerFile' no encontrado.";
+    exit;
+}
+
+require_once $controllerFile;
+
+if (!class_exists($controllerClass)) {
+    echo "Error: Clase '$controllerClass' no encontrada.";
+    exit;
+}
+
+$controllerObject = new $controllerClass();
+
+if (!method_exists($controllerObject, $action)) {
+    echo "Error: Acción '$action' no encontrada.";
+    exit;
+}
+
+$controllerObject->$action();
+exit;

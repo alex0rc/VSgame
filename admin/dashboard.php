@@ -29,7 +29,7 @@ if ($_SESSION['user']['rol'] !== 1) {
     <a href="<?= BASE_URL ?>/index.php?controller=user&action=index">Usuarios</a>
     <a href="<?= BASE_URL ?>/index.php?controller=card&action=index">Cartas</a>
     <a href="<?= BASE_URL ?>/index.php?controller=game&action=index">Partidas</a>
-    <a href="<?= BASE_URL ?>/index.php?view=show">Juego</a>
+    <a href="<?= BASE_URL ?>/index.php">Juego</a>
     <a href="<?= BASE_URL ?>/index.php">Panel admin</a>
     <a href="<?= BASE_URL ?>/api/logout.php" class="logout-btn">Salir</a>
 </nav>
