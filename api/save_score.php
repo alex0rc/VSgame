@@ -29,6 +29,7 @@ if (!$data) {
 }
 
 $user_id     = $_SESSION['user']['id'];
+$difficulty_id = intval($data['difficulty_id'] ?? 1);
 $totalRounds = intval($data['totalRounds'] ?? 0);
 $scorePlayer = intval($data['scorePlayer'] ?? 0);
 $scoreCPU    = intval($data['scoreCPU'] ?? 0);
@@ -37,17 +38,19 @@ $scoreCPU    = intval($data['scoreCPU'] ?? 0);
 $result = ($scorePlayer > $scoreCPU) ? 1 : (($scorePlayer < $scoreCPU) ? 0 : 2);
 
 // Por ahora dificultad por defecto
-$difficulty_id = 1;
 
 try {
     // Creamos el objeto Game y guardamos
     $game = new Game(
-        $user_id,
-        $difficulty_id,
-        $result,
-        $totalRounds,
-        $scorePlayer
+        null,            // id
+        $user_id,        // user_id
+        $difficulty_id,  // difficulty_id
+        null,            // date
+        $totalRounds,    // total_rounds
+        $scorePlayer,    // rounds_won
+        $result          // result
     );
+
 
     $ok = $game->save();
 

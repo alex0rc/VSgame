@@ -20,7 +20,7 @@ $email = $user['email'] ?? '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VSGame</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/scss/style.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/scss/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -92,7 +92,7 @@ $email = $user['email'] ?? '';
 
 
     <?php if ($user['rol'] == 1): ?>
-        <a href="<?= BASE_URL ?>index.php" class="btn-admin-panel">Admin Panel</a>
+        <a href="<?= BASE_URL ?>index.php?controller=user&action=index" class="btn-admin-panel">Admin Panel</a>
     <?php endif; ?>
 
     <div class="score">
@@ -101,7 +101,7 @@ $email = $user['email'] ?? '';
                 <img id="banderaImg" src="" alt="bandera">
             </div>
 
-            <img src="<?= BASE_URL ?>/assets/img/score.png" alt="score" id="scoreGame">
+            <img src="<?= BASE_URL ?>assets/img/score.png" alt="score" id="scoreGame">
 
             <div class="ronda" id="rondaActual">1</div>
             <div class="puntuacionJ1" id="scoreJ1">0</div>
@@ -148,7 +148,7 @@ $email = $user['email'] ?? '';
     </div>
 
 
-    <script src="<?= BASE_URL ?>/assets/js/app.js"></script>
+    <script src="<?= BASE_URL ?>assets/js/app.js"></script>
     <script>
         document.getElementById("atacar").addEventListener("click", e => {
             e.preventDefault();
