@@ -2,8 +2,8 @@
 session_start();
 
 require_once __DIR__ . '/../config.php';
-require_once BASE_URL . 'admin/models/User.php';
-require_once BASE_URL . 'admin/models/Database.php';
+require_once __DIR__ . '/../admin/models/User.php';
+require_once __DIR__ . '/../admin/models/Database.php';
 
 use admin\models\User;
 
