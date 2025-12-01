@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+require_once __DIR__ . '/../config.php';
 ?>
 
 <!DOCTYPE html>
@@ -9,7 +9,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <title>VSGAME - Registro</title>
-    <link rel="stylesheet" href="../assets/scss/style.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/scss/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@ session_start();
         <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
         <?php if (isset($success)) echo "<p style='color:green;'>$success</p>"; ?>
 
-        <form method="POST" action="../api/register.php" id="registerForm">
+        <form method="POST" action="<?= BASE_URL ?>api/register.php" id="registerForm">
             <label>Username</label>
             <input type="text" name="username" required>
 
@@ -46,7 +46,7 @@ session_start();
             <a href="./login.php">Iniciar Sesión</a>
         </p>
     </div>
-    <script src="../assets/js/form-validator.js"></script>
+    <script src="<?= BASE_URL ?>assets/js/form-validator.js"></script>
 
 </body>
 

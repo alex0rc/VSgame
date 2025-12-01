@@ -3,12 +3,12 @@ require_once __DIR__ . '/../config.php';
 session_start();
 
 if (!isset($_SESSION['user'])) {
-    header("Location: ../../views/show.php");
+    header("Location: ".BASE_URL."views/show.php");
     exit;
 }
 
 if ($_SESSION['user']['rol'] !== 1) {
-    header("Location: ../../views/show.php");
+    header("Location: ".BASE_URL."views/show.php");
     exit;
 }
 ?>
