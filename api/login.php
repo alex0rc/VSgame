@@ -2,15 +2,15 @@
 session_start();
 
 require_once __DIR__ . '/../config.php';
-require_once __DIR__ . '/../admin/models/User.php';
-require_once __DIR__ . '/../admin/models/Database.php';
+require_once BASE_URL . 'admin/models/User.php';
+require_once BASE_URL . 'admin/models/Database.php';
 
 use admin\models\User;
 
 // Solo permitir POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     $_SESSION['error_login'] = "Acceso denegado";
-    header("Location: ../views/login.php");
+    header("Location: ". BASE_URL ."views/login.php");
     exit();
 }
 
