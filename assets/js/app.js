@@ -1,9 +1,3 @@
-/**********************************************
- *  VS GAME - LÓGICA COMPLETA DEL JUEGO
- *  Cartas cargadas desde la base de datos
- **********************************************/
-
-// Estado global del juego
 let game = {
     mazo: [],
     ronda: 1,
@@ -14,31 +8,21 @@ let game = {
     currentPlayerCard: null,
     currentCPUCard: null,
     terminado: false,
-    difficulty_id: null, // ✅ nueva propiedad
+    difficulty_id: null,
 };
 
-// -------------------------------
-// Inicialización
-// -------------------------------
 window.onload = () => {
-    // no iniciar el juego aun
     document.getElementById('modalDificultad').style.display = 'flex';
 };
 
-// -------------------------------
-// Cargar cartas desde el servidor
-// -------------------------------
 async function cargarCartasDesdeServidor() {
     try {
         const res = await fetch('../api/start_game.php');
         const data = await res.json();
-
         if (data.status !== 'success') {
             console.error('Error al cargar cartas:', data.message);
             return [];
         }
-
-        // Convertir los valores a números y normalizar
         return data.cards.map((c) => ({
             id: c.id,
             name: c.name,
@@ -52,9 +36,6 @@ async function cargarCartasDesdeServidor() {
     }
 }
 
-// -------------------------------
-// Mezclar mazo
-// -------------------------------
 function mezclar(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -63,11 +44,7 @@ function mezclar(array) {
     return array;
 }
 
-// ---------------------------------------------------
-// Aplicar modificadores según dificultad
-// ---------------------------------------------------
 function aplicarDificultad() {
-    // EASY = id 1 → jugador buff (+1 todo)
     if (game.difficulty_id === 1) {
         game.mazo = game.mazo.map((c) => ({
             ...c,
@@ -75,10 +52,6 @@ function aplicarDificultad() {
             def: c.def + 1,
         }));
     }
-
-    // NORMAL = id 2 → sin cambios
-
-    // HARD = id 3 → jugador debuff (-1 todo)
     if (game.difficulty_id === 3) {
         game.mazo = game.mazo.map((c) => ({
             ...c,
@@ -88,32 +61,18 @@ function aplicarDificultad() {
     }
 }
 
-// ---------------------------------------------------
-// Definir número de rondas según dificultad
-// ---------------------------------------------------
 function setRondasPorDificultad() {
-    if (game.difficulty_id === 1) game.totalRondas = 4; // EASY
-    if (game.difficulty_id === 2) game.totalRondas = 5; // NORMAL
-    if (game.difficulty_id === 3) game.totalRondas = 7; // HARD
+    if (game.difficulty_id === 1) game.totalRondas = 4;
+    if (game.difficulty_id === 2) game.totalRondas = 5;
+    if (game.difficulty_id === 3) game.totalRondas = 7;
 }
 
-// -------------------------------
-// Iniciar juego
-// -------------------------------
 async function iniciarJuego() {
-    // Cargar mazo desde API
     game.mazo = await cargarCartasDesdeServidor();
-
-    // Aplicar dificultad → cambio de stats
     aplicarDificultad();
-
-    // Definir número de rondas según dificultad
     setRondasPorDificultad();
-
-    // Mezclar cartas
     game.mazo = mezclar(game.mazo);
 
-    // Reset de estado
     game.ronda = 1;
     game.scorePlayer = 0;
     game.scoreCPU = 0;
@@ -122,9 +81,6 @@ async function iniciarJuego() {
     siguienteRonda();
 }
 
-// -------------------------------
-// Siguiente ronda
-// -------------------------------
 function siguienteRonda() {
     if (game.mazo.length < 2) {
         finDelJuego();
@@ -138,9 +94,6 @@ function siguienteRonda() {
     actualizarHUD();
 }
 
-// -------------------------------
-// Mostrar cartas en la UI
-// -------------------------------
 function mostrarCartas(playerCard, cpuCard) {
     document.getElementById('imgJugador').src = playerCard.img;
     document.getElementById('imgMaquina').src = cpuCard.img;
@@ -152,9 +105,6 @@ function mostrarCartas(playerCard, cpuCard) {
     document.getElementById('defMaquina').textContent = cpuCard.def;
 }
 
-// -------------------------------
-// Acciones del jugador
-// -------------------------------
 function atacar() {
     if (game.terminado) return;
     jugarTurno('ataque');
@@ -165,19 +115,11 @@ function defender() {
     jugarTurno('defensa');
 }
 
-function defender() {
-    if (game.terminado) return;
-    jugarTurno('defensa');
-}
-
-// -------------------------------
-// Lógica de comparación
-// -------------------------------
 function jugarTurno(action) {
     const player = game.currentPlayerCard;
     const cpu = game.currentCPUCard;
-
     let resultado = '';
+
     if (action === 'ataque') {
         if (player.atk > cpu.def) {
             game.scorePlayer++;
@@ -189,7 +131,7 @@ function jugarTurno(action) {
             mostrarBandera('maquina');
         } else {
             resultado = 'Empate';
-            mostrarBandera('empate'); // Opcional, no hace nada
+            mostrarBandera('empate');
         }
     }
 
@@ -204,12 +146,10 @@ function jugarTurno(action) {
             mostrarBandera('maquina');
         } else {
             resultado = 'Empate';
-            mostrarBandera('empate'); // opcional
+            mostrarBandera('empate');
         }
     }
 
-    // Guardar historial
-    // Guardar historial
     game.history.push({
         round: game.ronda,
         action,
@@ -218,7 +158,6 @@ function jugarTurno(action) {
         result: resultado,
     });
 
-    // MENSAJE SIMPLE PARA EL MODAL
     let mensajeRonda = '';
 
     if (action === 'ataque') {
@@ -237,13 +176,11 @@ function jugarTurno(action) {
     `;
     }
 
-    // Mostrar modal de ronda
     mostrarModal(`Ronda ${game.ronda}`, mensajeRonda, false, false);
 
     game.ronda++;
     actualizarHUD();
 
-    // Si termina la partida → modal final
     if (game.ronda > game.totalRondas || game.mazo.length < 2) {
         finDelJuego();
     } else {
@@ -251,9 +188,6 @@ function jugarTurno(action) {
     }
 }
 
-// -------------------------------
-// Actualizar puntuaciones en UI
-// -------------------------------
 function actualizarHUD() {
     document.getElementById('rondaActual').textContent = game.ronda;
     document.getElementById('scoreJ1').textContent = game.scorePlayer;
@@ -269,10 +203,9 @@ function mostrarBandera(ganador) {
     } else if (ganador === 'maquina') {
         banderaImg.src = '../assets/img/win2.png';
     } else {
-        return; // no mostrar en empate
+        return;
     }
 
-    // Mostrar bandera antes de animarla
     bandera.style.visibility = 'visible';
     bandera.style.opacity = '1';
 
@@ -281,9 +214,6 @@ function mostrarBandera(ganador) {
     bandera.classList.add('show');
 }
 
-// -------------------------------
-// Fin del juego
-// -------------------------------
 function finDelJuego() {
     game.terminado = true;
 
@@ -304,29 +234,27 @@ function finDelJuego() {
     guardarScore();
 }
 
-// -------------------------------
-// Enviar resultado al backend
-// -------------------------------
-function guardarScore() {
-    fetch('../api/save_score.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            scorePlayer: game.scorePlayer,
-            scoreCPU: game.scoreCPU,
-            totalRounds: game.ronda - 1,
-            difficulty_id: game.difficulty_id, // 🔥 AÑADIDO
-            history: game.history,
-        }),
-    })
-        .then((res) => res.json())
-        .then((data) => console.log('Resultado guardado:', data))
-        .catch((err) => console.error('Error guardando puntuación:', err));
+async function guardarScore() {
+    try {
+        const res = await fetch('../api/save_score.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                scorePlayer: game.scorePlayer,
+                scoreCPU: game.scoreCPU,
+                totalRounds: game.ronda - 1,
+                difficulty_id: game.difficulty_id,
+                history: game.history,
+            }),
+        });
+
+        const data = await res.json();
+        console.log('Resultado guardado:', data);
+    } catch (err) {
+        console.error('Error guardando puntuación:', err);
+    }
 }
 
-// -------------------------------
-// Reiniciar juego
-// -------------------------------
 document.getElementById('restartGame').addEventListener('click', (e) => {
     e.preventDefault();
 
@@ -334,14 +262,11 @@ document.getElementById('restartGame').addEventListener('click', (e) => {
     document.getElementById('defensa').style.pointerEvents = 'auto';
 
     game.terminado = false;
-    game.difficulty_id = null; // 🔥 reset dificultad
+    game.difficulty_id = null;
 
-    document.getElementById('modalDificultad').style.display = 'flex'; // 🔥 pedir dificultad otra vez
+    document.getElementById('modalDificultad').style.display = 'flex';
 });
 
-// -------------------------------
-// Modal de historial
-// -------------------------------
 function mostrarHistorial() {
     const cont = document.getElementById('historialContenido');
     cont.innerHTML = '';
@@ -349,6 +274,7 @@ function mostrarHistorial() {
     game.history.forEach((h) => {
         const div = document.createElement('div');
         div.classList.add('hist-item');
+
         div.innerHTML = `
             <p><strong>Ronda ${h.round}</strong> (${h.action.toUpperCase()})</p>
             <p>Jugador — ATK: ${h.playerCard.atk} | DEF: ${h.playerCard.def}</p>
@@ -356,6 +282,7 @@ function mostrarHistorial() {
             <p>Resultado: <strong>${h.result}</strong></p>
             <hr>
         `;
+
         cont.appendChild(div);
     });
 
@@ -398,9 +325,9 @@ document.getElementById('modalReiniciar').addEventListener('click', () => {
     document.getElementById('defensa').style.pointerEvents = 'auto';
 
     game.terminado = false;
-    game.difficulty_id = null; // 🔥 borrar dificultad anterior
+    game.difficulty_id = null;
 
-    document.getElementById('modalDificultad').style.display = 'flex'; // 🔥 volver a pedir dificultad
+    document.getElementById('modalDificultad').style.display = 'flex';
 });
 
 document.getElementById('modalHistorialBtn').addEventListener('click', () => {
@@ -408,17 +335,11 @@ document.getElementById('modalHistorialBtn').addEventListener('click', () => {
     mostrarHistorial();
 });
 
-// -------------------------------------------
-// Selección de dificultad
-// -------------------------------------------
 document.querySelectorAll('.dificultad-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
         const id = parseInt(btn.dataset.id);
         game.difficulty_id = id;
-
         document.getElementById('modalDificultad').style.display = 'none';
-
-        // 🔥 Ahora sí se puede iniciar el juego
         iniciarJuego();
     });
 });
