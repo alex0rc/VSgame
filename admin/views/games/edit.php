@@ -1,7 +1,7 @@
 <main class="main-content">
     <h1>Editar Partida</h1>
 
-<form action="/index.php?controller=game&action=update" method="POST">
+<form action="/VSgame/index.php?controller=game&action=update" method="POST">
 
     <input type="hidden" name="id" value="<?= htmlspecialchars($game->getId()) ?>">
     <br>
@@ -38,5 +38,5 @@
 </form>
 
 <br>
-<a href="/index.php?controller=game&action=index">Volver al listado</a>
+<a href="/VSgame/index.php?controller=game&action=index">Volver al listado</a>
 </main>

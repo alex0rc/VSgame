@@ -1,1 +1,1 @@
-<?php define('BASE_URL', '/'); ?>
+<?php define('BASE_URL', '/VSgame/'); ?>
