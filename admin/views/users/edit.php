@@ -1,7 +1,7 @@
 <main class="main-content">
     <h1>Editar Usuario</h1>
 
-<form action="/VSgame/index.php?controller=user&action=update" method="POST">
+<form action="/index.php?controller=user&action=update" method="POST">
     <!-- ID oculto -->
     <input type="hidden" name="id" value="<?= htmlspecialchars($user->getId()) ?>">
 

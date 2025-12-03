@@ -1,7 +1,7 @@
 <main class="main-content">
     <h1>Partidas</h1>
 
-<a href="/VSgame/index.php?controller=game&action=create" class="btn">Crear nueva partida</a>
+<a href="/index.php?controller=game&action=create" class="btn">Crear nueva partida</a>
 
 
 <table border="1" width="100%" cellpadding="8">
