@@ -1,7 +1,7 @@
 <main class="main-content">
     <h1>Cartas</h1>
 
-<a href="/index.php?controller=card&action=create" class="btn">Crear nueva carta</a>
+<a href="/VSgame/index.php?controller=card&action=create" class="btn">Crear nueva carta</a>
 
 <table border="1" width="100%" cellpadding="8">
     <thead>

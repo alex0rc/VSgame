@@ -1,7 +1,7 @@
 <main class="main-content">
     <h1>Usuarios</h1>
 
-<a href="/index.php?controller=user&action=create" class="btn">Crear nuevo usuario</a>
+<a href="/VSgame/index.php?controller=user&action=create" class="btn">Crear nuevo usuario</a>
 
 <table border="1" width="100%" cellpadding="8">
     <thead>
