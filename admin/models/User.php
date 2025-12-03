@@ -1,0 +1,201 @@
+<?php
+
+namespace admin\models;
+
+require_once __DIR__ . '/Database.php';
+
+use admin\models\Database;
+use PDO;
+
+class User
+{
+    private $db;
+    private $con;
+
+    private ?int $id;
+    private ?string $username = null;
+    private ?string $email = null;
+    private ?string $password = null;
+
+    private int $wins;
+    private int $losses;
+    private int $rol;
+
+    private bool $isHashed = false;
+
+
+    public function __construct(?int $id = null, ?string $username = null, ?string $email = null, ?string $password = null, bool $isHashed = false, ?int $rol=0)
+    {
+        $this->id = $id;
+        $this->username = $username;
+        $this->email = $email;
+        $this->isHashed = $isHashed;
+        $this->rol = $rol;
+
+        $this->password = $this->isHashed ? $password : password_hash($password, PASSWORD_DEFAULT);
+
+        $this->db = Database::getInstance();
+        $this->con = $this->db->connect();
+    }
+
+
+    //Getters
+    public function getId() : ?int { return $this->id; }
+    public function getUsername() : ?string { return $this->username; }
+    public function getEmail() : ?string { return $this->email; }
+    public function getPassword() : ?string { return $this->password; }
+    public function getWins() : ?int { return $this->wins; }
+    public function getLosses() : ?int { return $this->losses; }
+    public function getRol() : ?int { return $this->rol; }
+
+    //Setters
+    public function setId(int $id) : void { $this->id = $id; }
+    public function setUsername(string $username) : void { $this->username = $username; }
+    public function setEmail(string $email) : void { $this->email = $email; }
+    public function setPassword(string $password) : void { $this->password = $password; }
+    public function setWins(int $wins) : void { $this->wins = $wins; }
+    public function setLosses(int $losses) : void { $this->losses = $losses; }
+    public function setRol(int $rol) : void { $this->rol = $rol; }
+
+    private function mapSingle(?array $row): ?User
+    {
+        if (empty($row) || !is_array($row)) {
+            return null;
+        }
+
+        return new User(
+            (int)$row['id'],
+            $row['username'],
+            $row['email'],
+            $row['password'],
+            true,
+            (int)$row['rol']
+        );
+    }
+
+
+    private function mapAll(?array $rows): ?array
+    {
+        if (!$rows) {
+            return null;
+        }
+
+        return array_map(fn($row) => $this->mapSingle($row), $rows);
+    }
+
+    public function get(): array
+    {
+        $sql = "SELECT * FROM users";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute();
+
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return array_map(fn($row) => $this->mapSingle($row), $rows);
+    }
+
+    public function all(): array
+    {
+        return $this->get();
+    }
+
+    //Create
+    public function save(): bool
+    {
+        if ($this->id == null) {
+            $sql = "INSERT INTO users (username, email, password, rol) VALUES (:username, :email, :password, :rol)";
+            $stmt = $this->con->prepare($sql);
+            if ($stmt->execute([
+                ':username' => $this->username,
+                ':email' => $this->email,
+                ':password' => $this->password,
+                ':rol' => $this->rol
+            ])) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            $sql = "UPDATE users SET username = :username, email = :email, password = :password, rol = :rol WHERE id = :id";
+            $stmt = $this->con->prepare($sql);
+            if ($stmt->execute([
+                ':username' => $this->username,
+                ':email' => $this->email,
+                ':password' => $this->password,
+                ':rol' => $this->rol,
+                ':id' => $this->id
+            ])) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    //Read
+    public function find(int $id): ?User
+    {
+        $sql = "SELECT * FROM users WHERE id = :id";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute([
+            ':id' => $id
+        ]);
+        return $this->mapSingle($stmt->fetch(PDO::FETCH_ASSOC));
+    }
+
+    public function getAllUsers(): array
+    {
+        $sql = "SELECT * FROM users";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute();
+        return $this->mapAll($stmt->fetchAll(PDO::FETCH_ASSOC));
+    }
+
+    public function getByUsername(string $username): ?User
+    {
+        $sql = "SELECT * FROM users WHERE username = :username";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute([
+            ':username' => $username
+        ]);
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row === false) {
+            return null;
+        }
+
+        return $this->mapSingle($row);
+    }
+
+    public function getByEmail(string $email): ?User
+    {
+        $sql = "SELECT * FROM users WHERE email = :email";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute([
+            ':email' => $email
+        ]);
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row === false) {
+            return null;
+        }
+
+        return $this->mapSingle($row);
+    }
+
+
+    //public function getRanking() : array {}
+
+    //Update
+    //public function updateScore(User $user) : bool {}
+
+    //Delete
+    public function delete(int $id): bool
+    {
+        $sql = "DELETE FROM users WHERE id = :id";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute([
+            ':id' => $id
+        ]);
+        return $stmt->rowCount() > 0;
+    }
+}
