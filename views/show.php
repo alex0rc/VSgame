@@ -59,7 +59,7 @@ $email = $user['email'] ?? '';
 
     <!-- Cabecera -->
     <header class="header">
-        <div>Bienvenido, <?= htmlspecialchars($username) ?>!</div>
+        <div class="bienvenida">Bienvenido, <?= htmlspecialchars($username) ?>!</div>
         <a class="btn-logout" href="<?= BASE_URL ?>api/logout.php" class="logout-btn">Cerrar sesión</a>
     </header>
 
@@ -130,9 +130,11 @@ $email = $user['email'] ?? '';
             <h2 id="modalTitulo"></h2>
             <p id="modalMensaje"></p>
 
+            <button class="btn-modal" id="modalContinuar">Continuar</button>
             <button class="btn-modal" id="modalCerrar">Cerrar</button>
             <button class="btn-modal" id="modalReiniciar">Reiniciar</button>
             <button class="btn-modal" id="modalHistorialBtn">Historial</button>
+
         </div>
     </div>
 
@@ -149,20 +151,7 @@ $email = $user['email'] ?? '';
 
 
     <script src="<?= BASE_URL ?>assets/js/app.js"></script>
-    <script>
-        document.getElementById("atacar").addEventListener("click", e => {
-            e.preventDefault();
-            atacar();
-        });
-        document.getElementById("defensa").addEventListener("click", e => {
-            e.preventDefault();
-            defender();
-        });
-        document.getElementById("historialBtn").addEventListener("click", e => {
-            e.preventDefault();
-            mostrarHistorial();
-        });
-    </script>
+
 </body>
 
 </html>
