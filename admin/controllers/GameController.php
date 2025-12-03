@@ -55,7 +55,7 @@ class GameController
         $g->setResult($_POST['result'] ?? null);
 
         $g->save();
-        header('Location: /VSgame/index.php?controller=game&action=index');
+        header('Location: /index.php?controller=game&action=index');
         exit;
     }
     
